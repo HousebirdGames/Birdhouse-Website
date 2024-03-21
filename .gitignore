@@ -3,5 +3,5 @@ pipeline-log.txt
 config-sw.js
 /node_modules
 /docs
-birdhouse-structure.json
-dynamic-routes.json
+birdhouse-structure.js
+dynamic-routes.js

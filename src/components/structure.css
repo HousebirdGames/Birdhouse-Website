@@ -1,0 +1,4 @@
+.subdirectory {
+    border-left: 1px solid var(--fontColor);
+    opacity: 0.5;
+}

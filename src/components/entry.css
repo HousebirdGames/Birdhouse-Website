@@ -1,0 +1,12 @@
+.pageColumn.second {
+    border-right: 0.1rem solid var(--darker);
+}
+
+@media screen and (max-width: 1000px) {
+    .pageColumn.second {
+        order: 2;
+        border-right: none;
+        border-top: 0.1rem solid var(--darker);
+        padding-top: 1rem;
+    }
+}

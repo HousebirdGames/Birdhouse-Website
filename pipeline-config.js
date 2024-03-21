@@ -12,13 +12,13 @@ module.exports = {
     faviconsFileName: "Favicon",
     faviconSizes: [
 
-        ],
+    ],
     manifestIconPath: "img/logos-originals/Birdhouse-Logo.jpg",
     manifestIconOutputDir: "img/icons",
     manifestIconFileName: "Icon",
     manifestIconSizes: [
 
-        ],
+    ],
     statisticsFile: "pipeline-log.txt",
     ignoredFileTypes: [
         ".zip",
@@ -26,18 +26,20 @@ module.exports = {
         ".txt",
         ".psd",
         ".htaccess"
-        ],
+    ],
     directoriesToInclude: [
         "src",
         "fonts",
         "img/favicons",
         "img/icons",
         "img/screenshots",
+        "img/logos-originals",
         "uploads",
-        "docs"
-        ],
+        "docs",
+        "themes"
+    ],
     directoriesToExcludeFromCache: [
         "img/screenshots",
         "uploads"
-        ]
-    };
+    ]
+};

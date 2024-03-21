@@ -1,5 +1,5 @@
 export default {
-  "version": "1.0.0.7",
+  "version": "1.0.1.4",
   "pageTitle": "Birdhouse",
   "cookieIdentifier": "birdhouse",
   "foundationYear": 2024,
@@ -11,7 +11,7 @@ export default {
   "maintenanceModeWithFailedBackend": false,
   "enableInputValidation": true,
   "enableImageComparisonSliders": true,
-  "enableInfoBar": false,
+  "enableInfoBar": true,
   "userLoginEnabled": false,
   "redirect404ToRoot": false
 };

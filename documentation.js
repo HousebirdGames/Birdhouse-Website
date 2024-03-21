@@ -79,7 +79,7 @@ async function extractTopComment(filePath) {
     const content = await fs.readFile(filePath, 'utf-8');
     const commentRegex = /(\/\*[\s\S]*?\*\/)|(<!--[\s\S]*?-->)/;
     const match = content.match(commentRegex);
-    return match ? match[0].replace(/\/\*|\*\/|<!--|-->|#/g, '').trim().split('\n').map(line => `${line.trim()}`).join('\n') : "View the file to get more information.";
+    return match ? '[p]' + match[0].replace(/\/\*|\*\/|<!--|-->|#/g, '').trim().split('\n').map(line => `${line.trim()}`).join('\n') + '[/p]' : "";
 }
 
 function convertMarkdownToHTML(mdContent) {
@@ -124,10 +124,10 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
         } else if (allowedExtensions.includes(path.extname(entry.name))) {
             let content = `[h1]${entry.name}[/h1]\n`;
             const comment = await extractTopComment(fullPath);
-            content += `[p]${comment}[/p]\n`;
+            content += `${comment}`;
 
-            const fileLink = `[a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/${entryRelativePath}^]View file on GitHub[/a]`;
-            content += `${fileLink}\n`;
+            const fileLink = `[a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/${entryRelativePath}^]view the file on GitHub[/a]`;
+            content += `[p]You can ${fileLink}[/p]`;
 
             if (entry.name.endsWith('.js')) {
                 let fileContent = await fs.readFile(fullPath, 'utf-8');
@@ -160,7 +160,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                     content += "[/div]";
                 }
             } else if (entry.name.endsWith('.txt')) {
-                content += `[p]${await fs.readFile(fullPath, 'utf-8')}[/p]`;
+                content += `[p class=^justify^]${await fs.readFile(fullPath, 'utf-8')}[/p]`;
             } else if (entry.name.endsWith('.md')) {
                 content += convertMarkdownToHTML(await fs.readFile(fullPath, 'utf-8'));
             }

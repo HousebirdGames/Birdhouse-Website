@@ -1,0 +1,34 @@
+:root {
+    --fontColor: rgb(218, 218, 218);
+    --fontHighlight: #aad9ff;
+    --accent: #000000;
+    --darker: rgba(255, 255, 255, 0.2);
+    --muchDarker: rgba(255, 255, 255, 0.6);
+    --lighter: rgba(0, 0, 0, 0.2);
+    --muchlighter: rgba(0, 0, 0, 0.6);
+    --highlight: #8acbff;
+    --highlightHover: #a7d7ff;
+    --highlightActive: #f3dc76;
+    --background: #202020;
+    --warning: rgb(218, 113, 113);
+    --none: rgb(255, 255, 255, 0);
+
+    --padding: 1rem;
+    --border: 0.1rem solid white;
+    --borderRadius: 0rem;
+    --borderRadiusButtons: 0rem;
+    --fontFamily: system-ui;
+    --boxShadow: 0rem 0 1rem var(--lighter);
+    --fontSizeSmall: 0.8rem;
+    --fontSize: 1rem;
+    --fontSizeMedium: 1.2rem;
+    --fontSizeLarge: 1.4rem;
+    --fontSizeExtraLarge: 2rem;
+    --transitionFast: 0.1s ease-in-out;
+    --transitionNormal: 0.4s ease-in-out;
+    --transitionSlow: 1.4s ease-in-out;
+}
+
+img.logo {
+    filter: none;
+}

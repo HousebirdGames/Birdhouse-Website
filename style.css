@@ -1,26 +1,26 @@
 /* To begin, you can change, add or remove any of the variables */
 
 :root {
-    --fontColor: white;
-    --fontHighlight: #bce1ff;
-    --accent: #39425c;
+    --fontColor: rgb(44, 44, 44);
+    --fontHighlight: #363636;
+    --accent: #ffffff;
     --lighter: rgba(255, 255, 255, 0.2);
     --muchlighter: rgba(255, 255, 255, 0.6);
-    --darker: rgba(0, 0, 0, 0.4);
+    --darker: rgba(0, 0, 0, 0.2);
     --muchDarker: rgba(0, 0, 0, 0.6);
-    --highlight: #58a4e3;
+    --highlight: #3f9fee;
     --highlightHover: #83c7ff;
-    --highlightActive: #3f9fee;
-    --background: #242a3a;
+    --highlightActive: #158ef1;
+    --background: #e7e7e7;
     --warning: rgb(218, 113, 113);
     --none: rgb(255, 255, 255, 0);
 
     --padding: 1rem;
     --border: 0.1rem solid white;
-    --borderRadius: 0.4rem;
-    --borderRadiusButtons: 0.4rem;
+    --borderRadius: 0rem;
+    --borderRadiusButtons: 0rem;
     --fontFamily: system-ui;
-    --boxShadow: 0rem 0 2rem var(--muchDarker);
+    --boxShadow: 0rem 0 1rem var(--darker);
     --fontSizeSmall: 0.8rem;
     --fontSize: 1rem;
     --fontSizeMedium: 1.2rem;
@@ -29,6 +29,12 @@
     --transitionFast: 0.1s ease-in-out;
     --transitionNormal: 0.4s ease-in-out;
     --transitionSlow: 1.4s ease-in-out;
+}
+
+@media screen and (max-width: 800px) {
+    :root {
+        --padding: 0.5rem;
+    }
 }
 
 ::selection {
@@ -63,6 +69,14 @@ footer {
     padding: var(--padding);
     background: var(--accent);
     box-shadow: var(--boxShadow);
+    justify-content: space-between;
+    align-items: center;
+}
+
+header {
+    padding: 0.2rem;
+    padding-right: 1rem;
+    align-items: center;
 }
 
 #content {
@@ -70,8 +84,17 @@ footer {
     flex-direction: column;
     min-height: 100lvh;
     gap: var(--padding);
-    padding: var(--padding);
-    width: 24rem;
+    padding: 2rem 4rem;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+@media screen and (max-width: 1000px) {
+    #content {
+        padding: 1rem 2rem;
+    }
 }
 
 #infoBar {
@@ -94,23 +117,58 @@ footer {
     gap: var(--padding);
 }
 
+ul,
+ol,
+li * {
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
 li {
-    list-style: none;
+    margin-left: 2rem;
+    list-style: disc;
+    text-align: left;
+}
+
+code {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
+    background: var(--muchlighter);
+    padding: 0 0.4rem;
+    border-left: 0.1rem dashed var(--fontColor);
+}
+
+ol li {
+    list-style: decimal;
+}
+
+li.active {
+    font-weight: bold;
+    color: var(--highlightActive);
+}
+
+li.active a {
+    color: var(--highlightActive);
 }
 
 h1,
 h2 {
     font-size: var(--fontSizeExtraLarge);
+    text-align: left;
 }
 
 h3,
 h4 {
     font-size: var(--fontSizeLarge);
+    text-align: left;
 }
 
 h5,
 h6 {
     font-size: var(--fontSizeMedium);
+    text-align: left;
 }
 
 a {
@@ -125,6 +183,15 @@ a:hover {
 
 a:active {
     color: var(--highlightActive);
+}
+
+p.justify {
+    text-align: justify;
+}
+
+p.filePath {
+    font-size: var(--fontSizeMedium);
+
 }
 
 strong {
@@ -148,25 +215,6 @@ textarea {
 input::placeholder,
 textarea::placeholder {
     color: var(--muchDarker);
-}
-
-button {
-    background: var(--highlight);
-    color: var(--fontColor);
-    padding: 0.4rem;
-    border-radius: var(--borderRadiusButtons);
-    border: none;
-    width: fit-content;
-    cursor: pointer;
-    transition: var(--transitionFast);
-}
-
-button:hover {
-    background: var(--highlightHover);
-}
-
-button:active {
-    background: var(--highlightActive);
 }
 
 .error-message {
@@ -195,6 +243,10 @@ button:active {
     text-align: center;
     border-radius: var(--borderRadius);
     box-shadow: var(--boxShadow);
+}
+
+.popup-content button {
+    align-self: center;
 }
 
 .fade-in-fast {
@@ -231,4 +283,127 @@ button:active {
     100% {
         opacity: 0;
     }
+}
+
+img.logo {
+    max-height: 2.4rem;
+    max-width: 2.4rem;
+    aspect-ratio: 1 / 1;
+}
+
+img.logo.big {
+    max-height: 6rem;
+    max-width: 6rem;
+
+}
+
+img.logo {
+    filter: invert(1);
+}
+
+button,
+.menuButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.2rem 0.5rem;
+    color: var(--fontColor);
+    border: 1px solid var(--fontColor);
+    cursor: pointer;
+    transition: var(--transitionFast);
+    background-color: var(--accent);
+    font-size: var(--fontSize);
+}
+
+button {
+    padding: 0.4rem 0.5rem;
+}
+
+button:hover,
+.menuButton:hover {
+    background: var(--fontColor);
+    color: var(--background);
+}
+
+button:active,
+.menuButton:active {
+    scale: 0.95;
+}
+
+.pageRow {
+    display: flex;
+    flex-direction: row;
+    gap: var(--padding);
+    align-items: flex-start;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.pageRow.centered {
+    align-items: center;
+    justify-content: center;
+}
+
+.centerContent {
+    max-width: 40rem;
+}
+
+.pageColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    min-width: 30%;
+}
+
+.fileList {
+    word-break: keep-all;
+    width: fit-content;
+}
+
+.fileList li {
+    list-style: none;
+    margin: 0;
+}
+
+@media screen and (max-width: 1000px) {
+    .pageRow {
+        flex-wrap: wrap;
+    }
+
+    .pageColumn {
+        min-width: 100%;
+    }
+
+    footer {
+        justify-content: center;
+    }
+}
+
+#updatePopup .popup-content {
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+#toggleDarkMode {
+    padding: 0.2rem;
+    border: 1px solid var(--fontColor);
+}
+
+#infoBar {
+    width: 100%;
+    color: var(--accent);
+    background: var(--highlight);
+    text-align: center;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+.buttonWrap,
+.linkRow {
+    display: flex;
+    flex-direction: row;
+    gap: var(--padding);
+    justify-content: center;
+    align-items: center;
 }

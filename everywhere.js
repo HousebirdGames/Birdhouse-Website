@@ -13,7 +13,13 @@ window.hook('before-adding-base-content', async function (menuHTML) {
         return;
     }
 
-    headerElement.innerHTML = menuHTML;
+    headerElement.innerHTML = `<img src="img/logos-originals/Birdhouse-Logo.png" class="logo"/>
+                                <div class="buttonWrap">
+                                <button id="toggleDarkMode"><span class="material-icons">light_mode</span></button>
+                                <a class="menuButton" href="readme.md"><span class="material-icons spaceRight">done_all</span>Get started</a>
+                                ${menuHTML}
+                                </div>
+                            `;
 });
 
 window.hook('on-handle-route-change', async function () {
@@ -29,9 +35,24 @@ window.hook('on-content-loaded', async function () {
 });
 
 window.hook('before-actions-setup', async function () {
-    // This hook will get triggered, before the actions are invoked and set up.
-    // You can use this hook to remove actions or add new ones globally.
+    main.action({
+        type: 'click',
+        handler: toggleDarkMode,
+        selector: '#toggleDarkMode'
+    });
 });
+
+async function toggleDarkMode(event) {
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) {
+        main.removeCSS('themes/darkmode.css');
+        localStorage.setItem('darkMode', 'false');
+    } else {
+        main.removeCSS('themes/darkmode.css');
+        await main.loadCSS('themes/darkmode.css');
+        localStorage.setItem('darkMode', 'true');
+    }
+}
 
 window.hook('on-actions-setup', async function () {
     // This hook will get triggered, when the actions are invoked and set up.
@@ -58,6 +79,11 @@ async function onPageLoaded() {
     // Let's add some base content that will be included on every page.
     main.addBaseContent(`
     `);
+
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) {
+        await main.loadCSS('themes/darkmode.css');
+    }
 }
 
 window.hook('user-logged-in', async function () {
@@ -82,8 +108,8 @@ window.hook('create-routes', async function () {
     // You can even overwrite routes. So if you create a route with the same path, the previously defined route will be overwritten.
 
     // As we want something to view on our front page, let's reuse the example component, but not add it to the menu.
-    main.createPublicRoute('/', 'Structure', 'list', 'components/structure', true);
-    main.createPublicRoute('/index.html', 'Structure', 'list', 'components/structure', false);
+    main.createPublicRoute('/', 'Home', 'home', 'components/home', true);
+    main.createPublicRoute('/index.html', 'Home', 'list', 'components/home', false);
 });
 
 window.hook('get-cookies-list', async function () {
@@ -224,6 +250,11 @@ window.hook('add-dynamic-routes', async function (path) {
 window.hook('database-get-setting', async function (name, cacheSetting) {
     // Here you would fetch a setting from your backend.
     // In this example, we just return a default setting as a json response.
+    if (name === 'info_text') {
+        return new Response(JSON.stringify({ value: 'This website and the documentation is work in progess' }), {
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
 
     return new Response(JSON.stringify({ value: 'exampleSetting' }), {
         headers: { 'Content-Type': 'application/json' },

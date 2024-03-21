@@ -29,7 +29,7 @@
 <body class="displayNone">
 	<div id="adminBar"></div>
 	<div id="infoBar"></div>
-	<header id="header" class="noLogo">
+	<header id="header" class="">
 		<p>HEADER</p>
 	</header>
 
@@ -67,10 +67,16 @@
 </body>
 
 <footer id="footer">
-	<p>©
-		<span id="currentYear"></span>my-web-app
-	</p>
-	<span>
+	<span class="buttonWrap">
+		<p>©
+			<span id="currentYear"></span><a href="https://housebird.games">Felix T. Vogel</a>
+		</p>
+		|
+		<a href="https://housebird.games/contact" class="underline">Contact</a>
+		<a href="https://stubenvogel.com/impressum/" class="underline">Imprint</a>
+		<a href="https://housebird.games/privacy-policy" class="underline">Privacy Policy</a>
+	</span>
+	<span class="buttonWrap">
 		<button class="updateNotesButton">Update Notes</button>
 		<button class="openAcknowledgementButton">Storage Settings</button>
 	</span>

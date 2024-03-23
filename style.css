@@ -3,7 +3,7 @@
 :root {
     --fontColor: rgb(44, 44, 44);
     --fontHighlight: #363636;
-    --accent: #ffffff;
+    --accent: #fdfcf6;
     --lighter: rgba(255, 255, 255, 0.2);
     --muchlighter: rgba(255, 255, 255, 0.6);
     --darker: rgba(0, 0, 0, 0.2);
@@ -11,7 +11,7 @@
     --highlight: #3f9fee;
     --highlightHover: #83c7ff;
     --highlightActive: #158ef1;
-    --background: #e7e7e7;
+    --background: #e6e4df;
     --warning: rgb(218, 113, 113);
     --none: rgb(255, 255, 255, 0);
 
@@ -88,7 +88,7 @@ header {
     width: 100%;
     box-sizing: border-box;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
 }
 
 @media screen and (max-width: 1000px) {
@@ -130,14 +130,54 @@ li {
     text-align: left;
 }
 
-code {
+pre code {
     overflow-wrap: break-word;
     word-wrap: break-word;
     white-space: pre-wrap;
     max-width: 100%;
     background: var(--muchlighter);
-    padding: 0 0.4rem;
+    padding: 0.4rem 0.64rem;
     border-left: 0.1rem dashed var(--fontColor);
+    display: flex;
+    width: fit-content;
+    align-items: center;
+}
+
+li pre {
+    margin: 0.5rem 0;
+}
+
+pre code:hover {
+    cursor: pointer;
+}
+
+pre code::after {
+    content: "\e14d";
+    font-family: "Material Icons";
+    padding-left: 0.5rem;
+    opacity: 0.5;
+}
+
+pre code:hover::after {
+    opacity: 1;
+}
+
+@keyframes copied-animation {
+    0% {
+        background: var(--muchlighter);
+    }
+
+    5% {
+        background: var(--highlightHover);
+    }
+
+    100% {
+        background: var(--muchlighter);
+    }
+}
+
+.copied {
+    animation: copied-animation 1s ease-in-out;
 }
 
 ol li {
@@ -342,10 +382,12 @@ button:active,
 .pageRow.centered {
     align-items: center;
     justify-content: center;
+    align-self: center;
 }
 
 .centerContent {
     max-width: 40rem;
+    align-self: center;
 }
 
 .pageColumn {
@@ -366,7 +408,24 @@ button:active,
     margin: 0;
 }
 
+.fileList li li {
+    list-style: none;
+    margin-left: 1rem;
+}
+
+.fileList ul {
+    border-left: 1px solid var(--darker);
+}
+
+.hideOnLarge {
+    display: none;
+}
+
 @media screen and (max-width: 1000px) {
+    .hideOnLarge {
+        display: block;
+    }
+
     .pageRow {
         flex-wrap: wrap;
     }

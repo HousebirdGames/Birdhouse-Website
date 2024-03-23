@@ -13,7 +13,7 @@ window.hook('before-adding-base-content', async function (menuHTML) {
         return;
     }
 
-    headerElement.innerHTML = `<img src="img/logos-originals/Birdhouse-Logo.png" class="logo"/>
+    headerElement.innerHTML = `<img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo"/>
                                 <div class="buttonWrap">
                                 <button id="toggleDarkMode"><span class="material-icons">light_mode</span></button>
                                 <a class="menuButton" href="readme.md"><span class="material-icons spaceRight">done_all</span>Get started</a>
@@ -39,6 +39,19 @@ window.hook('before-actions-setup', async function () {
         type: 'click',
         handler: toggleDarkMode,
         selector: '#toggleDarkMode'
+    });
+
+    main.action({
+        type: 'click',
+        handler: (e) => {
+            CopyToClipboard(e.target.innerHTML, false);
+            e.target.classList.remove('copied');
+            setTimeout(() => {
+                e.target.classList.add('copied');
+            }, 0);
+        },
+        selector: 'pre code',
+        container: '#content'
     });
 });
 
@@ -236,9 +249,7 @@ window.hook('get-maintenance-mode', async function () {
 
 window.hook('add-dynamic-routes', async function (path) {
     for (let route of dynamicRoutes) {
-        console.log('Checking dynamic route:', route.originalPath.replace('Birdhouse/', ''));
         if (route.originalPath.replace('Birdhouse/', '').toLocaleLowerCase() === path) {
-            console.log('Adding dynamic route:', route.originalPath.replace('Birdhouse/', ''));
             main.createPublicRoute(route.originalPath.replace('Birdhouse/', '/'), route.filename, '', 'components/entry', false, route);
             return true;
         }

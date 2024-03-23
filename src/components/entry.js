@@ -15,7 +15,8 @@ export default async function Entry(route) {
         <div class="pageColumn second">
         ${await Structure()}
         </div>
-        <div class="pageColumn">
+        <div class="pageColumn entry">
+            <a href="#birdhouseStructure" class="menuButton hideOnLarge"><span class="material-icons spaceRight">keyboard_double_arrow_down</span>To Structure</a>
             <p class="filePath"><span class="material-icons spaceRight">description</span>${route.originalPath}</p>
             ${await markdown(fileContent)}
         </div>

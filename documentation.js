@@ -126,7 +126,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
             const comment = await extractTopComment(fullPath);
             content += `${comment}`;
 
-            const fileLink = `[a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/${entryRelativePath}^]view the file on GitHub[/a]`;
+            const fileLink = `[a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/${entryRelativePath}^]view this file on GitHub[/a]`;
             content += `[p]You can ${fileLink}[/p]`;
 
             if (entry.name.endsWith('.js')) {
@@ -136,7 +136,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
 
                 const variables = await listExportedVariables(fileContent);
                 for (const variable of variables) {
-                    content += `[div class=^variable^ id=^${variable.name}^][h4]Variable (${variable.type}): ${variable.name}[/h4][p]${variable.description}[/p][/div]`;
+                    content += `[div class=^variable^ id=^${variable.name}^][h4]Variable (${variable.type}): <strong>${variable.name}</strong>[/h4][p]${variable.description}[/p][/div]`;
                 }
 
                 const functions = await listFunctionsInJSFile(fileContent);
@@ -146,7 +146,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                         parameters.push(`${param.type}: ${param.name}`);
                     }
                     const parametersString = parameters.join(', ');
-                    content += `[div class=^^ id=^${func.functionName}^][h3]Function: ${func.isAsync ? 'async ' : ''}${func.functionName} (${parameters.length > 0 ? parametersString : '...'})[/h3][br][p]Description: ${func.description}[/p]`;
+                    content += `[div class=^^ id=^${func.functionName}^][h3]Function: ${func.isAsync ? 'async ' : ''}<strong>${func.functionName}</strong> (${parameters.length > 0 ? parametersString : '...'})[/h3][br][p]Description: ${func.description}[/p]`;
                     if (func.params.length > 0) {
                         content += '[br][h4]Parameters:[/h4][ul]';
                         for (const param of func.params) {

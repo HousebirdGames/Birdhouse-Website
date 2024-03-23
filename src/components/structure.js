@@ -2,10 +2,11 @@ import { birdhouseStructure } from '../birdhouse-structure.js';
 import { getRelativePath } from '../../Birdhouse/src/main.js';
 
 export default async function Structure() {
-
     return `
-    <h1>Birdhouse Structure</h1>
-    ${generateHTMLForStructure(birdhouseStructure)}
+    <h1 id="birdhouseStructure">Birdhouse Structure</h1>
+    <div class="birdhouse-structure">
+        ${generateHTMLForStructure(birdhouseStructure)}
+    </div>
     `;
 }
 
@@ -14,20 +15,22 @@ function pathToURL(path) {
 }
 
 function generateHTMLForStructure(structure, depth = 0) {
-    let html = depth === 0 ? `<ul class="fileList">\n` : '<ul>\n';
+    let html = `<ul class="${depth === 0 ? 'fileList' : ''}">\n`;
     const relativePath = getRelativePath(window.location.pathname).toLocaleLowerCase();
 
     for (const [key, value] of Object.entries(structure)) {
-        if (value.path) {
-            const webPath = pathToURL(value.path);
-            html += `<li ${getRelativePath(webPath).toLocaleLowerCase() == relativePath ? 'class="active"' : ''}>${'&nbsp;'.repeat(depth * 5)}${depth > 0 ? '<span class="material-icons subdirectory">subdirectory_arrow_right</span>' : ''}<span class="material-icons spaceRight">description</span><a href="${webPath}" target="_blank">${key}</a></li>\n`;
+        const activeClass = value.path && getRelativePath(pathToURL(value.path)).toLocaleLowerCase() === relativePath ? 'active' : '';
+        const iconType = value.path || key.split('.').length > 1 ? 'description' : 'folder';
+        const webPath = value.path ? pathToURL(value.path) : '#';
+        const linkStart = value.path ? `<a href="${webPath}" target="_blank">${key}</a>` : `${key}`;
+
+        html += `<li class="${activeClass}"><span class="material-icons">${iconType}</span>${linkStart}`;
+
+        if (!value.path) {
+            html += generateHTMLForStructure(value, depth + 1);
         }
-        else if (key.split('.').length > 1) {
-            html += `<li>${'&nbsp;'.repeat(depth * 5)}${depth > 0 ? '<span class="material-icons subdirectory">subdirectory_arrow_right</span>' : ''}<span class="material-icons spaceRight">description</span>${key}</li>\n`;
-        }
-        else {
-            html += `<li>${'&nbsp;'.repeat(depth * 5)}${depth > 0 ? '<span class="material-icons subdirectory">subdirectory_arrow_right</span>' : ''}<span class="material-icons spaceRight">folder</span>${key}${generateHTMLForStructure(value, depth + 1)}</li>\n`;
-        }
+
+        html += `</li>\n`;
     }
 
     html += '</ul>\n';

@@ -14,15 +14,16 @@ async function readGitignore(directoryPath) {
 }
 
 async function listFunctionsInJSFile(content) {
-    const functionRegex = /(?:\/\*\*([\s\S]*?)\*\/\s*)?(export\s+(async\s+)?(default\s+)?function\s*(\w*)?\()/g;
+    const functionRegex = /(?:\/\*\*([\s\S]*?)\*\/\s*)?(export\s+(async\s+)?(default\s+)?function\s*(\w*)?\(|window\.(\w+)\s*=\s*(async\s+)?function)/g;
     let match;
     const functionsInfo = [];
 
     while ((match = functionRegex.exec(content)) !== null) {
         const jsDoc = match[1] || '';
-        const isAsync = !!match[3];
+        const isAsync = !!match[3] || !!match[7];
         const isDefault = !!match[4];
-        const functionName = match[5] || (isDefault ? 'default' : 'anonymous');
+        const functionName = match[5] || match[6] || (isDefault ? 'default' : 'anonymous');
+        const declarationType = match[5] ? "Exported" : "Window";
 
         const descriptionMatch = jsDoc.match(/\* (.+)/);
         const description = descriptionMatch ? descriptionMatch[1].trim() : "No description provided.";
@@ -46,9 +47,9 @@ async function listFunctionsInJSFile(content) {
             description,
             params,
             returns,
-            isExported: true,
             isDefault,
             isAsync,
+            declarationType
         });
     }
     return functionsInfo;
@@ -74,6 +75,27 @@ async function listExportedVariables(content) {
     return variablesInfo;
 }
 
+async function listExportedAndWindowVariables(content) {
+    const variableRegex = /\/\*\*([\s\S]*?)\*\/\s*(?:export\s+(const|let)\s+([^=]+)=|window\.([^=]+)=)/g;
+    let match;
+    const variablesInfo = [];
+
+    while ((match = variableRegex.exec(content)) !== null) {
+        const comment = match[1].trim().split('\n').map(line => line.replace(/^\s*\*\s?/, '')).join(' ');
+        const type = match[2] ? match[2].trim() : "property";
+        const name = match[3] ? match[3].trim() : match[4].trim();
+        const declarationType = match[3] ? "Exported" : "Window";
+
+        variablesInfo.push({
+            type: type,
+            name: name,
+            description: comment,
+            declarationType: declarationType
+        });
+    }
+
+    return variablesInfo;
+}
 
 async function extractTopComment(filePath) {
     const content = await fs.readFile(filePath, 'utf-8');
@@ -134,9 +156,9 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                 fileContent = removeIgnoredBlocks(fileContent);
                 fileContent = await escapeHTMLSpecialCharacters(fileContent);
 
-                const variables = await listExportedVariables(fileContent);
+                const variables = await listExportedAndWindowVariables(fileContent);
                 for (const variable of variables) {
-                    content += `[div class=^variable^ id=^${variable.name}^][h4]Variable (${variable.type}): <strong>${variable.name}</strong>[/h4][p]${variable.description}[/p][/div]`;
+                    content += `[div class=^variable^ id=^${variable.name}^][h4]${variable.declarationType} Variable (${variable.type}): <strong>${variable.name}</strong>[/h4][p]${variable.description}[/p][/div]`;
                 }
 
                 const functions = await listFunctionsInJSFile(fileContent);
@@ -146,7 +168,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                         parameters.push(`${param.type}: ${param.name}`);
                     }
                     const parametersString = parameters.join(', ');
-                    content += `[div class=^^ id=^${func.functionName}^][h3]Function: ${func.isAsync ? 'async ' : ''}<strong>${func.functionName}</strong> (${parameters.length > 0 ? parametersString : '...'})[/h3][br][p]Description: ${func.description}[/p]`;
+                    content += `[div class=^^ id=^${func.functionName}^][h3]${func.declarationType} Function: ${func.isAsync ? 'async ' : ''}<strong>${func.functionName}</strong> (${parameters.length > 0 ? parametersString : '...'})[/h3][br][p]Description: ${func.description}[/p]`;
                     if (func.params.length > 0) {
                         content += '[br][h4]Parameters:[/h4][ul]';
                         for (const param of func.params) {

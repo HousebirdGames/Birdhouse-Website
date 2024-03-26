@@ -14,7 +14,7 @@ async function readGitignore(directoryPath) {
 }
 
 async function listFunctionsInJSFile(content) {
-    const functionRegex = /(?:\/\*\*([\s\S]*?)\*\/\s*)?(export\s+(async\s+)?(default\s+)?function\s*(\w*)?\(|window\.(\w+)\s*=\s*(async\s+)?function)/g;
+    const functionRegex = /\/\*\*([\s\S]*?)\*\/\s*(export\s+(async\s+)?(default\s+)?function\s*(\w*)?\(|window\.(\w+)\s*=\s*(async\s+)?function)/g;
     let match;
     const functionsInfo = [];
 
@@ -39,8 +39,8 @@ async function listFunctionsInJSFile(content) {
             });
         }
 
-        const returnMatch = jsDoc.match(/\* @return \{([^\}]+)\}\s+([\s\S]+?)(?=\* @|$)/);
-        const returns = returnMatch ? { type: returnMatch[1].trim(), description: returnMatch[2].trim() } : null;
+        const returnMatch = jsDoc.match(/\* @return {(\w+)} (.+)/);
+        const returns = returnMatch ? { type: returnMatch[1], description: returnMatch[2].trim() } : null;
 
         functionsInfo.push({
             functionName,
@@ -76,18 +76,28 @@ async function listExportedVariables(content) {
 }
 
 async function listExportedAndWindowVariables(content) {
-    const variableRegex = /\/\*\*([\s\S]*?)\*\/\s*(?:export\s+(const|let)\s+([^=]+)=|window\.([^=]+)=)/g;
+    const variableRegex = /\/\*\*([\s\S]*?)\*\/\s*(export\s+(const|let)\s+([^=]+)=|window\.([^=]+)\s*=\s*(?![\s\S]*function))/g;
     let match;
     const variablesInfo = [];
 
     while ((match = variableRegex.exec(content)) !== null) {
-        const comment = match[1].trim().split('\n').map(line => line.replace(/^\s*\*\s?/, '')).join(' ');
-        const type = match[2] ? match[2].trim() : "property";
-        const name = match[3] ? match[3].trim() : match[4].trim();
+        if (match[0].includes('function')) continue;
+
+        let comment = match[1].trim().split('\n').map(line => line.replace(/^\s*\*\s?/, '')).join(' ');
+        const def = (match[3] ? match[3].trim() : "property");
+        const name = match[4] ? match[4].trim() : match[4].trim();
         const declarationType = match[3] ? "Exported" : "Window";
+
+        const typeMatch = comment.match(/@type {(.+?)}/);
+        const type = typeMatch ? typeMatch[1] : "unknown type";
+
+        if (typeMatch) {
+            comment = comment.replace(typeMatch[0], '').trim();
+        }
 
         variablesInfo.push({
             type: type,
+            def: def,
             name: name,
             description: comment,
             declarationType: declarationType
@@ -158,7 +168,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
 
                 const variables = await listExportedAndWindowVariables(fileContent);
                 for (const variable of variables) {
-                    content += `[div class=^variable^ id=^${variable.name}^][h4]${variable.declarationType} Variable (${variable.type}): <strong>${variable.name}</strong>[/h4][p]${variable.description}[/p][/div]`;
+                    content += `[div class=^variable^ id=^${variable.name}^][h4]${variable.declarationType} Variable (${variable.def} ${variable.type}): <strong>${variable.name}</strong>[/h4][p]${variable.description}[/p][/div]`;
                 }
 
                 const functions = await listFunctionsInJSFile(fileContent);
@@ -168,16 +178,16 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                         parameters.push(`${param.type}: ${param.name}`);
                     }
                     const parametersString = parameters.join(', ');
-                    content += `[div class=^^ id=^${func.functionName}^][h3]${func.declarationType} Function: ${func.isAsync ? 'async ' : ''}<strong>${func.functionName}</strong> (${parameters.length > 0 ? parametersString : '...'})[/h3][br][p]Description: ${func.description}[/p]`;
+                    content += `[div class=^function^ id=^${func.functionName}^][h3]${func.declarationType} Function: ${func.isAsync ? 'async ' : ''}<strong>${func.functionName}</strong> (${parameters.length > 0 ? parametersString : '...'})[/h3][p]Description: ${func.description}[/p]`;
                     if (func.params.length > 0) {
-                        content += '[br][h4]Parameters:[/h4][ul]';
+                        content += '[h4]Parameters:[/h4][ul]';
                         for (const param of func.params) {
                             content += `[li][b]${param.name} (${param.type}):[/b] [i]${param.description}[/i][/li]`;
                         }
                         content += '[/ul]';
                     }
                     if (func.returns) {
-                        content += `[br][p][b]Returns (${func.returns.type}):[/b] [i]${func.returns.description}[/i][/p]`;
+                        content += `[p][b]Returns (${func.returns.type}):[/b] [i]${func.returns.description}[/i][/p]`;
                     }
                     content += "[/div]";
                 }

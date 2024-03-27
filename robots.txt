@@ -1,7 +1,5 @@
 
-# robots.txt for https://YOUR_DOMAIN.EXAMPLE
+# robots.txt for https://birdhouse-js.com
 User-agent: *
 
-Disallow: /uploads/
-
-Sitemap: https://YOUR_DOMAIN.EXAMPLE/sitemap.xml
+Sitemap: https://birdhouse-js.com/sitemap.xml

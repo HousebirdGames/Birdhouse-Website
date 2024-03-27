@@ -1,5 +1,16 @@
 export const updateNotes = [
     {
+        "version": "1.1.0",
+        "title": "Beta",
+        "notes": [
+            "Overhauled the documentation",
+            "Updated documentation generation",
+            "Added a get started page",
+            "Added separate privacy policy page",
+            "Added content to the home page",
+        ]
+    },
+    {
         "version": "1.0.1",
         "title": "Alpha",
         "notes": [

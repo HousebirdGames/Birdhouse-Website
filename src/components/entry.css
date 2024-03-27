@@ -1,12 +1,20 @@
-.pageColumn.second {
+.pageColumn.structure {
     border-right: 0.1rem solid var(--darker);
+    padding-right: 2rem;
+    width: fit-content;
 }
 
 @media screen and (max-width: 1000px) {
-    .pageColumn.second {
+    .pageColumn.structure {
         order: 2;
         border-right: none;
         border-top: 0.1rem solid var(--darker);
         padding-top: 1rem;
+        padding-right: 0;
     }
+}
+
+a.noBreak,
+#birdhouseStructure {
+    white-space: nowrap;
 }

@@ -23,13 +23,13 @@ async function listFunctionsInJSFile(content) {
         const isAsync = !!match[3] || !!match[7];
         const isDefault = !!match[4];
         const functionName = match[5] || match[6] || (isDefault ? 'default' : 'anonymous');
-        const declarationType = match[5] ? "Exported" : "Window";
+        const declarationType = match[5] ? "export " : "window.";
 
         const descriptionMatch = jsDoc.match(/\* (.+)/);
         const description = descriptionMatch ? descriptionMatch[1].trim() : "No description provided.";
 
         const params = [];
-        const paramRegex = /\* @param {(\w+)} (\w+) (.+)/g;
+        const paramRegex = /\* @param {(\w+)} (\[?.+?\]?) (.+)/g;
         let paramMatch;
         while ((paramMatch = paramRegex.exec(jsDoc)) !== null) {
             params.push({
@@ -39,7 +39,7 @@ async function listFunctionsInJSFile(content) {
             });
         }
 
-        const returnMatch = jsDoc.match(/\* @return {(\w+)} (.+)/);
+        const returnMatch = jsDoc.match(/\* @returns? {([^}]+)} (.+)/);
         const returns = returnMatch ? { type: returnMatch[1], description: returnMatch[2].trim() } : null;
 
         functionsInfo.push({
@@ -75,18 +75,17 @@ async function listExportedVariables(content) {
     return variablesInfo;
 }
 
-async function listExportedAndWindowVariables(content) {
+async function listExportedAndWindowVariables(originalContent) {
     const variableRegex = /\/\*\*([\s\S]*?)\*\/\s*(export\s+(const|let)\s+([^=]+)=|window\.([^=]+)\s*=\s*(?![\s\S]*function))/g;
     let match;
-    const variablesInfo = [];
+    const variables = [];
+    let cleanedContent = originalContent;
 
-    while ((match = variableRegex.exec(content)) !== null) {
-        if (match[0].includes('function')) continue;
-
+    while ((match = variableRegex.exec(originalContent)) !== null) {
         let comment = match[1].trim().split('\n').map(line => line.replace(/^\s*\*\s?/, '')).join(' ');
-        const def = (match[3] ? match[3].trim() : "property");
-        const name = match[4] ? match[4].trim() : match[4].trim();
-        const declarationType = match[3] ? "Exported" : "Window";
+        const def = match[3] ? match[3].trim() : "property";
+        const name = match[4] ? match[4].trim() : match[5].trim();
+        const declarationType = match[3] ? "export " : "window.";
 
         const typeMatch = comment.match(/@type {(.+?)}/);
         const type = typeMatch ? typeMatch[1] : "unknown type";
@@ -95,23 +94,29 @@ async function listExportedAndWindowVariables(content) {
             comment = comment.replace(typeMatch[0], '').trim();
         }
 
-        variablesInfo.push({
+        variables.push({
             type: type,
             def: def,
             name: name,
             description: comment,
             declarationType: declarationType
         });
+
+        const fullMatchLength = match[0].length;
+        const startIndex = match.index;
+        const endIndex = startIndex + fullMatchLength;
+
+        cleanedContent = cleanedContent.substring(0, startIndex) + ' '.repeat(endIndex - startIndex) + cleanedContent.substring(endIndex);
     }
 
-    return variablesInfo;
+    return { variables, cleanedContent };
 }
 
 async function extractTopComment(filePath) {
     const content = await fs.readFile(filePath, 'utf-8');
     const commentRegex = /(\/\*[\s\S]*?\*\/)|(<!--[\s\S]*?-->)/;
     const match = content.match(commentRegex);
-    return match ? '[p]' + match[0].replace(/\/\*|\*\/|<!--|-->|#/g, '').trim().split('\n').map(line => `${line.trim()}`).join('\n') + '[/p]' : "";
+    return match ? '[p class=^topComment^]' + match[0].replace(/\/\*|\*\/|<!--|-->|#/g, '').trim().split('\n').map(line => `${line.trim()}`).join('\n') + '[/p]' : "";
 }
 
 function convertMarkdownToHTML(mdContent) {
@@ -159,35 +164,52 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
             content += `${comment}`;
 
             const fileLink = `[a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/${entryRelativePath}^]view this file on GitHub[/a]`;
-            content += `[p]You can ${fileLink}[/p]`;
+            content += `[p]You can ${fileLink}.[/p]`;
 
             if (entry.name.endsWith('.js')) {
                 let fileContent = await fs.readFile(fullPath, 'utf-8');
                 fileContent = removeIgnoredBlocks(fileContent);
                 fileContent = await escapeHTMLSpecialCharacters(fileContent);
 
-                const variables = await listExportedAndWindowVariables(fileContent);
-                for (const variable of variables) {
-                    content += `[div class=^variable^ id=^${variable.name}^][h4]${variable.declarationType} Variable (${variable.def} ${variable.type}): <strong>${variable.name}</strong>[/h4][p]${variable.description}[/p][/div]`;
+                const { variables, cleanedContent } = await listExportedAndWindowVariables(fileContent);
+
+                if (variables.length > 0) {
+                    content += '[h2 id=^variables^]Variables[/h2]';
                 }
 
-                const functions = await listFunctionsInJSFile(fileContent);
+                for (const variable of variables) {
+                    content += `[div class=^variable^ id=^${variable.name}^][h3]${variable.declarationType}<strong class="copyData" data-copy="${variable.name}">${variable.name}</strong> (${variable.def} ${variable.type}) [button href=^#${variable.name}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p]${variable.description}[/p][/div]`;
+                }
+
+                const functions = await listFunctionsInJSFile(cleanedContent);
+
+                if (functions.length > 0) {
+                    content += '[h2 id=^functions^]Functions[/h2]';
+                }
+
                 for (const func of functions) {
                     let parameters = [];
+                    let parameterTypes = [];
                     for (const param of func.params) {
                         parameters.push(`${param.type}: ${param.name}`);
+                        parameterTypes.push(param.type);
                     }
                     const parametersString = parameters.join(', ');
-                    content += `[div class=^function^ id=^${func.functionName}^][h3]${func.declarationType} Function: ${func.isAsync ? 'async ' : ''}<strong>${func.functionName}</strong> (${parameters.length > 0 ? parametersString : '...'})[/h3][p]Description: ${func.description}[/p]`;
-                    if (func.params.length > 0) {
-                        content += '[h4]Parameters:[/h4][ul]';
-                        for (const param of func.params) {
-                            content += `[li][b]${param.name} (${param.type}):[/b] [i]${param.description}[/i][/li]`;
+                    const parametersTypesString = parameterTypes.join(', ');
+                    content += `[div class=^function^ id=^${func.functionName}^][h3]${func.isAsync ? 'async ' : ''}${func.declarationType}<strong class="copyData" data-copy="${func.declarationType == 'window.' ? 'window.' : ''}${func.functionName}(${parametersTypesString})">${func.functionName}</strong> (${parameters.length > 0 ? parametersString : '...'}) [button href=^#${func.functionName}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p]${func.description}[/p]`;
+                    if (func.params.length > 0 || func.returns) {
+                        content += '<table>';
+                        if (func.params.length > 0) {
+                            content += "<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>";
                         }
-                        content += '[/ul]';
-                    }
-                    if (func.returns) {
-                        content += `[p][b]Returns (${func.returns.type}):[/b] [i]${func.returns.description}[/i][/p]`;
+                        for (const param of func.params) {
+                            content += `<tr><td class="parameter">${param.name}</td><td>${param.type}</td><td>${param.description}</td></tr>`;
+                        }
+                        if (func.returns) {
+                            content += '<tr></tr>';
+                            content += `<tr><th class="returns">Returns</th><td>${func.returns.type}</td><td>${func.returns.description}</td></tr>`;
+                        }
+                        content += '</table>';
                     }
                     content += "[/div]";
                 }
@@ -199,7 +221,6 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
 
             const markdownPath = `./docs/${entryRelativePath.replace(/\\/g, '+')}.md`;
             await fs.writeFile(markdownPath, content, 'utf-8');
-
 
             routes.push({
                 originalPath: fullPath.replace(/\\/g, '/'),

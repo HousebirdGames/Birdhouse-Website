@@ -16,7 +16,6 @@ window.hook('before-adding-base-content', async function (menuHTML) {
     headerElement.innerHTML = `<img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo"/>
                                 <div class="buttonWrap">
                                 <button id="toggleDarkMode"><span class="material-icons">light_mode</span></button>
-                                <a class="menuButton" href="readme.md"><span class="material-icons spaceRight">done_all</span>Get started</a>
                                 ${menuHTML}
                                 </div>
                             `;
@@ -53,6 +52,48 @@ window.hook('before-actions-setup', async function () {
         selector: 'pre code',
         container: '#content'
     });
+
+    main.action({
+        type: 'click',
+        handler: (e) => {
+            const dataValue = e.target.dataset.copy;
+            CopyToClipboard(dataValue, false);
+            e.target.classList.remove('copied');
+            setTimeout(() => {
+                e.target.classList.add('copied');
+            }, 0);
+        },
+        selector: '.copyData',
+        container: '#content'
+    });
+
+    main.action({
+        type: 'click',
+        handler: (e) => {
+            setTimeout(() => {
+                CopyToClipboard(window.location.href, true)
+                hashChange();
+            }, 100);
+        },
+        selector: '.copyLink',
+        container: '#content'
+    });
+
+    main.action(hashChange);
+
+    function hashChange() {
+        const oldActive = document.querySelector('.activeAnchor');
+        if (oldActive) {
+            oldActive.classList.remove('activeAnchor');
+        }
+
+        // Add the class to the current active anchor target
+        const hash = window.location.hash.substring(1); // Get the hash and remove the '#'
+        const target = document.getElementById(hash);
+        if (target) {
+            target.classList.add('activeAnchor');
+        }
+    }
 });
 
 async function toggleDarkMode(event) {
@@ -91,7 +132,36 @@ window.hook('page-loaded', async function () {
 async function onPageLoaded() {
     // Let's add some base content that will be included on every page.
     main.addBaseContent(`
+        <button id="scrollToTopButton" class="invisible"><span class="material-icons">keyboard_double_arrow_up</span></button>
     `);
+
+    main.action(showScrollTopButton);
+
+    main.action({
+        type: 'scroll',
+        handler: showScrollTopButton,
+        debounce: 100
+    });
+
+    main.action({
+        type: 'click',
+        handler: () => {
+            scrollTo(0, 0);
+        },
+        selector: '#scrollToTopButton'
+    });
+
+    let scrollTopButton = null
+    function showScrollTopButton() {
+        if (!scrollTopButton) {
+            scrollTopButton = document.getElementById('scrollToTopButton');
+        }
+        if (window.scrollY > 200) {
+            scrollTopButton.classList.remove('invisible');
+        } else {
+            scrollTopButton.classList.add('invisible');
+        }
+    }
 
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
     if (isDarkMode) {
@@ -121,8 +191,10 @@ window.hook('create-routes', async function () {
     // You can even overwrite routes. So if you create a route with the same path, the previously defined route will be overwritten.
 
     // As we want something to view on our front page, let's reuse the example component, but not add it to the menu.
+    main.createPublicRoute('/get-started', 'Get started', 'done_all', 'components/get-started', true);
     main.createPublicRoute('/', 'Home', 'home', 'components/home', true);
     main.createPublicRoute('/index.html', 'Home', 'list', 'components/home', false);
+    main.createPublicRoute('/privacy-policy', 'Privacy Policy', '', 'components/privacy-policy', false);
 });
 
 window.hook('get-cookies-list', async function () {
@@ -262,7 +334,7 @@ window.hook('database-get-setting', async function (name, cacheSetting) {
     // Here you would fetch a setting from your backend.
     // In this example, we just return a default setting as a json response.
     if (name === 'info_text') {
-        return new Response(JSON.stringify({ value: 'This website and the documentation is work in progess' }), {
+        return new Response(JSON.stringify({ value: 'This website and the documentation are work in progess' }), {
             headers: { 'Content-Type': 'application/json' },
         });
     }
@@ -285,7 +357,7 @@ window.hook('send-analytics', async function (value) {
     // Here you would send analytics data to your backend.
     // In this example, we just log the value to the console.
 
-    console.log('Analytics:', value);
+    //console.log('Analytics:', value);
 });
 
 window.hook('validate-field', async function (input, value, errorElement, serverSide) {

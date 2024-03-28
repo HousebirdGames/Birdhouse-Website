@@ -29,6 +29,12 @@
     --transitionSlow: 1.4s ease-in-out;
 }
 
+@media screen and (max-width: 800px) {
+    :root {
+        --padding: 0.5rem;
+    }
+}
+
 img.logo {
     filter: none;
 }

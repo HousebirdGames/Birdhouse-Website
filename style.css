@@ -95,7 +95,7 @@ header {
 
 @media screen and (max-width: 1000px) {
     #content {
-        padding: 1rem 2rem;
+        padding: 1rem 2rem 4rem 1rem;
     }
 }
 
@@ -141,10 +141,11 @@ pre code,
     max-width: 100%;
     background: var(--muchlighter);
     padding: 0.4rem 0.64rem;
-    border-left: 0.1rem dashed var(--fontColor);
+    border-left: 0.2rem dashed var(--darker);
     display: flex;
     width: fit-content;
     align-items: center;
+    transition: var(--transitionFast);
 }
 
 li pre {
@@ -154,6 +155,7 @@ li pre {
 .entry h3 {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 0.4rem;
     align-items: center;
 }
@@ -170,6 +172,7 @@ li pre {
 pre code:hover,
 .copyData:hover {
     cursor: pointer;
+    border-color: var(--fontColor);
 }
 
 pre code::after,
@@ -178,6 +181,7 @@ pre code::after,
     font-family: "Material Icons";
     padding-left: 0.5rem;
     opacity: 0.5;
+    transition: var(--transitionFast);
 }
 
 pre code:hover::after,
@@ -226,13 +230,18 @@ h6 {
     text-align: left;
 }
 
-#content h1,
+h1,
+h3,
+h5 {
+    font-weight: bold;
+}
+
 #content h2,
 #content h3,
 #content h4,
 #content h5,
 #content h6 {
-    padding-top: 1rem;
+    margin-top: 1rem;
 }
 
 a {
@@ -251,11 +260,13 @@ a:active {
 
 p.justify {
     text-align: justify;
+    word-wrap: break-word;
 }
 
 p.filePath {
     font-size: var(--fontSizeMedium);
-
+    word-wrap: break-word;
+    line-break: anywhere;
 }
 
 strong {
@@ -300,7 +311,7 @@ textarea::placeholder {
     gap: var(--padding);
     align-items: center;
     background: var(--accent);
-    width: 24rem;
+    width: 30rem;
     max-width: 90%;
     max-height: 90%;
     padding: var(--padding);
@@ -308,6 +319,15 @@ textarea::placeholder {
     border-radius: var(--borderRadius);
     box-shadow: var(--boxShadow);
     line-break: anywhere;
+}
+
+.popup-content h2,
+.versionInfo,
+#updateNotesButtonsContainer {
+    width: 100%;
+    text-align: center;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .popup-content button {
@@ -371,6 +391,7 @@ button,
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
     padding: 0.2rem 0.5rem;
     color: var(--fontColor);
     border: 1px solid var(--fontColor);
@@ -378,6 +399,14 @@ button,
     transition: var(--transitionFast);
     background-color: var(--accent);
     font-size: var(--fontSize);
+}
+
+header .text-false .linkText {
+    display: none;
+}
+
+header .text-false .spaceRight {
+    margin-right: 0;
 }
 
 button {
@@ -393,6 +422,29 @@ button:hover,
 button:active,
 .menuButton:active {
     scale: 0.95;
+}
+
+#menu {
+    background: var(--background);
+}
+
+.menuList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding);
+    padding: 1rem;
+}
+
+.menuList .menuButton {
+    font-size: var(--fontSizeLarge);
+}
+
+.menuButton .material-icons {
+    margin-top: 0.1rem;
+}
+
+.menuList .menuButton .material-icons {
+    font-size: var(--fontSizeLarge);
 }
 
 .pageRow {
@@ -440,6 +492,10 @@ button:active,
     header {
         padding-right: 0.2rem;
     }
+
+    header .buttonRow {
+        flex-wrap: wrap;
+    }
 }
 
 .buttonRow {
@@ -476,7 +532,7 @@ button:active,
 }
 
 .pageColumn.entry h2 {
-    padding-top: 2rem;
+    margin-top: 2rem;
     color: var(--highlight);
 }
 
@@ -490,8 +546,7 @@ button:active,
     transition: var(--transitionFast);
 }
 
-.pageColumn.entry .function.activeAnchor,
-.pageColumn.entry .variable.activeAnchor {
+.activeAnchor {
     padding-left: var(--padding);
     border-left: 0.2rem solid var(--highlight);
     animation: copied-animation 0.4s ease-in-out;
@@ -502,8 +557,14 @@ button:active,
 }
 
 table {
+    display: block;
     text-align: left;
     border-collapse: collapse;
+    max-width: 100%;
+    overflow: scroll;
+    padding-bottom: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--highlight) transparent;
 }
 
 td,
@@ -523,6 +584,7 @@ th.returns {
     flex-direction: row;
     gap: 0.2rem;
     align-items: flex-end;
+    justify-content: flex-end;
     border: none;
 }
 
@@ -554,28 +616,6 @@ th.returns {
     border-left: 1px solid var(--darker);
 }
 
-.hideOnLarge {
-    display: none;
-}
-
-@media screen and (max-width: 1000px) {
-    .hideOnLarge {
-        display: block;
-    }
-
-    .pageRow {
-        flex-wrap: wrap;
-    }
-
-    .pageColumn {
-        min-width: 100%;
-    }
-
-    footer {
-        justify-content: center;
-    }
-}
-
 #updatePopup .popup-content {
     align-items: flex-start;
     justify-content: flex-start;
@@ -591,23 +631,67 @@ th.returns {
     color: var(--accent);
     background: var(--highlight);
     text-align: center;
-    padding: 0.4rem;
     box-sizing: border-box;
+}
+
+#infoBar p {
+    padding: 0.4rem;
+}
+
+.closePopupIcon {
+    position: absolute;
+    top: 0.2rem;
+    right: 0.2rem;
+
 }
 
 .buttonWrap,
 .linkRow {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: var(--padding);
     justify-content: center;
-    align-items: center;
+}
+
+.buttonWrap.start {
+    justify-content: flex-start;
+}
+
+.hideOnLarge {
+    display: none;
+}
+
+.hideOnSmall {
+    display: flex;
+}
+
+@media screen and (max-width: 1000px) {
+    .hideOnLarge {
+        display: flex;
+    }
+
+    .hideOnSmall {
+        display: none;
+    }
+
+    .pageRow {
+        flex-wrap: wrap;
+    }
+
+    .pageColumn {
+        min-width: 100%;
+    }
+
+    footer {
+        justify-content: center;
+    }
 }
 
 #scrollToTopButton {
     position: fixed;
-    bottom: 1rem;
-    right: 1rem;
+    top: 4rem;
+    left: 1rem;
     z-index: 10;
 }
 

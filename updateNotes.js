@@ -8,6 +8,9 @@ export const updateNotes = [
             "Added a get started page",
             "Added separate privacy policy page",
             "Added content to the home page",
+            "Improved responsibility",
+            "Added mobile menu",
+            "Added scroll to top button",
         ]
     },
     {

@@ -14,9 +14,14 @@ window.hook('before-adding-base-content', async function (menuHTML) {
     }
 
     headerElement.innerHTML = `<img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo"/>
-                                <div class="buttonWrap">
-                                <button id="toggleDarkMode"><span class="material-icons">light_mode</span></button>
+                                <div class="buttonWrap hideOnSmall">
+                                <button class="toggleDarkMode"><span class="material-icons">light_mode</span></button>
+                                <a href="readme.md" class="menuButton"><span class="material-icons spaceRight">subject</span><span class="linkText">Docs</span></a>
                                 ${menuHTML}
+                                </div>
+                                <div class="buttonWrap hideOnLarge">
+                                <button class="toggleDarkMode"><span class="material-icons">light_mode</span></button>
+                                <button id="menuButton"><span class="material-icons">menu</span></button>
                                 </div>
                             `;
 });
@@ -30,14 +35,41 @@ window.hook('on-component-loaded', async function () {
 });
 
 window.hook('on-content-loaded', async function () {
-    // This hook will get triggered, when the content is displayed (i.e. of a component).
+    main.action(showScrollTopButton);
+
+    main.action({
+        type: 'scroll',
+        handler: showScrollTopButton,
+        debounce: 100
+    });
+
+    main.action({
+        type: 'click',
+        handler: (e) => {
+            scrollTo(0, 0);
+            e.target.blur();
+        },
+        selector: '#scrollToTopButton'
+    });
+
+    let scrollTopButton = null
+    function showScrollTopButton() {
+        if (!scrollTopButton) {
+            scrollTopButton = document.getElementById('scrollToTopButton');
+        }
+        if (window.scrollY > 200) {
+            scrollTopButton.classList.remove('invisible');
+        } else {
+            scrollTopButton.classList.add('invisible');
+        }
+    }
 });
 
 window.hook('before-actions-setup', async function () {
     main.action({
         type: 'click',
         handler: toggleDarkMode,
-        selector: '#toggleDarkMode'
+        selector: '.toggleDarkMode'
     });
 
     main.action({
@@ -81,6 +113,12 @@ window.hook('before-actions-setup', async function () {
 
     main.action(hashChange);
 
+    main.action({
+        type: 'scroll',
+        handler: hashChange,
+        debounce: 100
+    });
+
     function hashChange() {
         const oldActive = document.querySelector('.activeAnchor');
         if (oldActive) {
@@ -116,10 +154,15 @@ window.hook('get-popup-menu-html', async function (menuHTML) {
     return `
     <div id="menu" class="popup">
 		<div class="menuList fade-left-menu">
+            <div class="pageRow centered">
+            <img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo"/>
+            <h1>Birdhouse</h1>
+            </div>
             <br>
+            <a href="readme.md" class="menuButton closePopup"><span class="material-icons spaceRight">subject</span><span class="linkText">Documentation</span></a>
             ${menuHTML}
             <br>
-			<button class="closePopup menu"><span class="material-icons md-light spaceRight">close</span>Close</button>
+			<button class="closePopup menu menuButton"><span class="material-icons md-light spaceRight">close</span><span class="linkText">Close</span></button>
 		</div>
 	</div>
     `;
@@ -134,34 +177,6 @@ async function onPageLoaded() {
     main.addBaseContent(`
         <button id="scrollToTopButton" class="invisible"><span class="material-icons">keyboard_double_arrow_up</span></button>
     `);
-
-    main.action(showScrollTopButton);
-
-    main.action({
-        type: 'scroll',
-        handler: showScrollTopButton,
-        debounce: 100
-    });
-
-    main.action({
-        type: 'click',
-        handler: () => {
-            scrollTo(0, 0);
-        },
-        selector: '#scrollToTopButton'
-    });
-
-    let scrollTopButton = null
-    function showScrollTopButton() {
-        if (!scrollTopButton) {
-            scrollTopButton = document.getElementById('scrollToTopButton');
-        }
-        if (window.scrollY > 200) {
-            scrollTopButton.classList.remove('invisible');
-        } else {
-            scrollTopButton.classList.add('invisible');
-        }
-    }
 
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
     if (isDarkMode) {
@@ -192,7 +207,7 @@ window.hook('create-routes', async function () {
 
     // As we want something to view on our front page, let's reuse the example component, but not add it to the menu.
     main.createPublicRoute('/get-started', 'Get started', 'done_all', 'components/get-started', true);
-    main.createPublicRoute('/', 'Home', 'home', 'components/home', true);
+    main.createPublicRoute('/', 'Home', 'home', 'components/home', true, null, false);
     main.createPublicRoute('/index.html', 'Home', 'list', 'components/home', false);
     main.createPublicRoute('/privacy-policy', 'Privacy Policy', '', 'components/privacy-policy', false);
 });
@@ -334,6 +349,9 @@ window.hook('database-get-setting', async function (name, cacheSetting) {
     // Here you would fetch a setting from your backend.
     // In this example, we just return a default setting as a json response.
     if (name === 'info_text') {
+        return new Response(JSON.stringify({ value: '' }), {
+            headers: { 'Content-Type': 'application/json' },
+        });
         return new Response(JSON.stringify({ value: 'This website and the documentation are work in progess' }), {
             headers: { 'Content-Type': 'application/json' },
         });

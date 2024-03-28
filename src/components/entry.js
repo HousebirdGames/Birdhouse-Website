@@ -18,7 +18,7 @@ export default async function Entry(route) {
         ${await Structure()}
         </div>
         <div class="pageColumn entry">
-            <div class="buttonWrap">
+            <div class="buttonWrap start">
                 <a href="#birdhouseStructure" class="menuButton hideOnLarge"><span class="material-icons spaceRight">keyboard_double_arrow_down</span>To Structure</a>
                 <a href="#variables" id="variablesAnchorButton" class="menuButton hidden"><span class="material-icons spaceRight">keyboard_double_arrow_down</span>To Variables</a>
                 <a href="#functions" id="functionsAnchorButton" class="menuButton hidden"><span class="material-icons spaceRight">keyboard_double_arrow_down</span>To Functions</a>

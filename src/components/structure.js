@@ -3,7 +3,7 @@ import { getRelativePath } from '../../Birdhouse/src/main.js';
 
 export default async function Structure() {
     return `
-    <h1 id="birdhouseStructure">Birdhouse Structure</h1>
+    <h2 id="birdhouseStructure">Files</h2>
     <div class="birdhouse-structure">
         ${generateHTMLForStructure(birdhouseStructure)}
     </div>

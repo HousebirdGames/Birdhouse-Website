@@ -14,19 +14,20 @@ async function readGitignore(directoryPath) {
 }
 
 async function listFunctionsInJSFile(content) {
-    const functionRegex = /\/\*\*([\s\S]*?)\*\/\s*(export\s+(async\s+)?(default\s+)?function\s*(\w*)?\(|window\.(\w+)\s*=\s*(async\s+)?function)/g;
+    const functionRegex = /\/\*\*([\s\S]*?)\*\/\s*(export\s+(default\s+)?(async\s+)?function\s*(\w*)?\(|window\.(\w+)\s*=\s*(async\s+)?function)/g;
     let match;
     const functionsInfo = [];
 
     while ((match = functionRegex.exec(content)) !== null) {
         const jsDoc = match[1] || '';
-        const isAsync = !!match[3] || !!match[7];
-        const isDefault = !!match[4];
+        const isAsync = !!match[4] || !!match[7];
+        const isDefault = !!match[3];
         const functionName = match[5] || match[6] || (isDefault ? 'default' : 'anonymous');
         const declarationType = match[5] ? "export " : "window.";
 
-        const descriptionMatch = jsDoc.match(/\* (.+)/);
-        const description = descriptionMatch ? descriptionMatch[1].trim() : "No description provided.";
+        let descriptionLines = jsDoc.split('\n').map(line => line.replace(/^\s*\* ?/, '')).filter(line => !line.startsWith('@'));
+        descriptionLines = descriptionLines.map(line => line.trim() === '' ? '<br>' : line);
+        let description = descriptionLines.join(' ').trim().replace(/^(<br>)+|(<br>)+$/g, '');
 
         const params = [];
         const paramRegex = /\* @param {(\w+)} (\[?.+?\]?) (.+)/g;
@@ -82,7 +83,9 @@ async function listExportedAndWindowVariables(originalContent) {
     let cleanedContent = originalContent;
 
     while ((match = variableRegex.exec(originalContent)) !== null) {
-        let comment = match[1].trim().split('\n').map(line => line.replace(/^\s*\*\s?/, '')).join(' ');
+        let commentLines = match[1].trim().split('\n').map(line => line.replace(/^\s*\*\s?/, ''));
+        commentLines = commentLines.map(line => line.trim() === '' ? '<br>' : line);
+        let comment = commentLines.join(' ').trim().replace(/^(<br>)+|(<br>)+$/g, '');
         const def = match[3] ? match[3].trim() : "property";
         const name = match[4] ? match[4].trim() : match[5].trim();
         const declarationType = match[3] ? "export " : "window.";
@@ -116,7 +119,14 @@ async function extractTopComment(filePath) {
     const content = await fs.readFile(filePath, 'utf-8');
     const commentRegex = /(\/\*[\s\S]*?\*\/)|(<!--[\s\S]*?-->)/;
     const match = content.match(commentRegex);
-    return match ? '[p class=^topComment^]' + match[0].replace(/\/\*|\*\/|<!--|-->|#/g, '').trim().split('\n').map(line => `${line.trim()}`).join('\n') + '[/p]' : "";
+    if (match) {
+        let commentLines = match[0].replace(/\/\*|\*\/|<!--|-->|#/g, '').trim().split('\n');
+        commentLines = commentLines.map(line => line.trim() === '' ? '<br>' : line.trim());
+        let comment = commentLines.join(' ').trim().replace(/^(<br>)+|(<br>)+$/g, '');
+        return '[p class=^topComment justify^]' + comment + '[/p]';
+    } else {
+        return "";
+    }
 }
 
 function convertMarkdownToHTML(mdContent) {
@@ -144,7 +154,7 @@ const directoryStructure = {};
 
 async function generateDocumentation(directoryPath, ig, basePath = '', structure = directoryStructure) {
     const entries = await fs.readdir(directoryPath, { withFileTypes: true });
-    const allowedExtensions = ['.html', '.js', '.css', '.php', '.txt', '.md'];
+    const allowedExtensions = ['.html', '.js', '.css', '.txt', '.md'];
 
     for (const entry of entries) {
         const entryRelativePath = path.join(basePath, entry.name);
@@ -160,11 +170,13 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
             await generateDocumentation(fullPath, ig, entryRelativePath, structure[entry.name]);
         } else if (allowedExtensions.includes(path.extname(entry.name))) {
             let content = `[h1]${entry.name}[/h1]\n`;
-            const comment = await extractTopComment(fullPath);
-            content += `${comment}`;
 
             const fileLink = `[a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/${entryRelativePath}^]view this file on GitHub[/a]`;
             content += `[p]You can ${fileLink}.[/p]`;
+
+            const comment = await extractTopComment(fullPath);
+            content += `${comment}`;
+
 
             if (entry.name.endsWith('.js')) {
                 let fileContent = await fs.readFile(fullPath, 'utf-8');
@@ -174,17 +186,17 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                 const { variables, cleanedContent } = await listExportedAndWindowVariables(fileContent);
 
                 if (variables.length > 0) {
-                    content += '[h2 id=^variables^]Variables[/h2]';
+                    content += '[h2 id=^variables^][button href=^#variables^ class=^copyLink^]Variables <span class="material-icons">link</span>[/button][/h2]';
                 }
 
                 for (const variable of variables) {
-                    content += `[div class=^variable^ id=^${variable.name}^][h3]${variable.declarationType}<strong class="copyData" data-copy="${variable.name}">${variable.name}</strong> (${variable.def} ${variable.type}) [button href=^#${variable.name}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p]${variable.description}[/p][/div]`;
+                    content += `[div class=^variable^ id=^${variable.name}^][h3]${variable.declarationType}<strong class="copyData" data-copy="${variable.name}">${variable.name}</strong> (${variable.def} ${variable.type}) [button href=^#${variable.name}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p class=^justify^]${variable.description}[/p][/div]`;
                 }
 
                 const functions = await listFunctionsInJSFile(cleanedContent);
 
                 if (functions.length > 0) {
-                    content += '[h2 id=^functions^]Functions[/h2]';
+                    content += '[h2 id=^functions^][button href=^#functions^ class=^copyLink^]Functions <span class="material-icons">link</span>[/button][/h2]';
                 }
 
                 for (const func of functions) {
@@ -196,7 +208,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                     }
                     const parametersString = parameters.join(', ');
                     const parametersTypesString = parameterTypes.join(', ');
-                    content += `[div class=^function^ id=^${func.functionName}^][h3]${func.isAsync ? 'async ' : ''}${func.declarationType}<strong class="copyData" data-copy="${func.declarationType == 'window.' ? 'window.' : ''}${func.functionName}(${parametersTypesString})">${func.functionName}</strong> (${parameters.length > 0 ? parametersString : '...'}) [button href=^#${func.functionName}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p]${func.description}[/p]`;
+                    content += `[div class=^function^ id=^${func.functionName}^][h3]${func.isDefault ? 'DEFAULT ' : ''}${func.isAsync ? 'async ' : ''}${func.declarationType}<strong class="copyData" data-copy="${func.declarationType == 'window.' ? 'window.' : ''}${func.functionName}(${parametersTypesString})">${func.functionName}</strong>${parameters.length > 0 ? `(${parametersString})` : ''} [button href=^#${func.functionName}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p class=^justify^]${func.description}[/p]`;
                     if (func.params.length > 0 || func.returns) {
                         content += '<table>';
                         if (func.params.length > 0) {
@@ -214,7 +226,9 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                     content += "[/div]";
                 }
             } else if (entry.name.endsWith('.txt')) {
-                content += `[p class=^justify^]${await fs.readFile(fullPath, 'utf-8')}[/p]`;
+                content += (await fs.readFile(fullPath, 'utf-8')).split('\r\n\r\n').map(
+                    paragraph => `[p class=^justify^]${paragraph.replace(/\r\n/g, ' ')}[/p]`
+                ).join('');
             } else if (entry.name.endsWith('.md')) {
                 content += convertMarkdownToHTML(await fs.readFile(fullPath, 'utf-8'));
             }

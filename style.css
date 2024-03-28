@@ -29,6 +29,8 @@
     --transitionFast: 0.1s ease-in-out;
     --transitionNormal: 0.4s ease-in-out;
     --transitionSlow: 1.4s ease-in-out;
+
+    --fixedPadding: 1rem;
 }
 
 @media screen and (max-width: 800px) {
@@ -466,23 +468,45 @@ button:active,
     padding: 0;
 }
 
+
+
 .contentRow {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: flex-start;
-    gap: calc(var(--padding) * 2);
-    border-left: 1px solid var(--darker);
-    padding-left: var(--padding);
-    border-top: 1px solid var(--darker);
-    padding-top: var(--padding);
+    align-items: stretch;
+    gap: var(--fixedPadding);
+    border-top: var(--fixedPadding) solid var(--accent);
 }
 
-@media screen and (max-width: 400px) {
+.contentRow p {
+    padding: var(--fixedPadding);
+    padding-top: 0;
+    background: var(--accent);
+    min-height: 100%;
+    border: 1px solid var(--accent);
+}
+
+.contentRow .buttonRow {
+    padding-top: var(--fixedPadding);
+}
+
+@media screen and (max-width: 600px) {
     .contentRow {
         flex-wrap: wrap;
         padding: 0;
-        border: none;
+        border-top: none;
+        border-left: var(--fixedPadding)solid var(--accent);
+    }
+
+    .contentRow p {
+        padding-left: 0;
+        padding-top: var(--fixedPadding);
+    }
+
+    .contentRow .buttonRow {
+        padding-top: 0;
+        padding-left: var(--fixedPadding);
     }
 
     .buttonRow {

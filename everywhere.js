@@ -63,6 +63,37 @@ window.hook('on-content-loaded', async function () {
             scrollTopButton.classList.add('invisible');
         }
     }
+
+    main.action({
+        type: 'scroll',
+        handler: () => {
+            adjustButtonPosition();
+        },
+        debounce: 100
+    });
+
+    main.action({
+        type: 'resize',
+        handler: () => {
+            adjustButtonPosition();
+        },
+        debounce: 10
+    });
+
+    main.action(adjustButtonPosition);
+
+    const footer = document.getElementById("footer");
+
+    function adjustButtonPosition() {
+        const footerRect = footer.getBoundingClientRect();
+        const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+        const footerVisibleHeight = viewHeight - footerRect.top;
+        if (footerVisibleHeight > 0) {
+            scrollTopButton.style.bottom = `${16 + footerVisibleHeight}px`;
+        } else {
+            scrollTopButton.style.bottom = '1rem';
+        }
+    }
 });
 
 window.hook('before-actions-setup', async function () {

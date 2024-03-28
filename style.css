@@ -585,10 +585,8 @@ table {
     text-align: left;
     border-collapse: collapse;
     max-width: 100%;
-    overflow: scroll;
+    overflow-x: auto;
     padding-bottom: 1rem;
-    scrollbar-width: thin;
-    scrollbar-color: var(--highlight) transparent;
 }
 
 td,
@@ -714,9 +712,10 @@ th.returns {
 
 #scrollToTopButton {
     position: fixed;
-    top: 4rem;
-    left: 1rem;
-    z-index: 10;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 50;
+    transition: var(--transitionFast);
 }
 
 .invisible {

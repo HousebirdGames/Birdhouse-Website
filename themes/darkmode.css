@@ -51,3 +51,8 @@ button,
 .popup-content {
     border: 0.1rem solid rgb(112, 112, 112);
 }
+
+.search-highlight,
+mark {
+    color: var(--background);
+}

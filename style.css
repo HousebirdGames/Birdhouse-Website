@@ -530,20 +530,22 @@ button:active,
     flex-direction: row;
     justify-content: center;
     align-items: stretch;
-    gap: var(--fixedPadding);
-    border-top: var(--fixedPadding) solid var(--accent);
 }
 
 .contentRow p {
     padding: var(--fixedPadding);
-    padding-top: 0;
     background: var(--accent);
     min-height: 100%;
     border: 1px solid var(--accent);
 }
 
 .contentRow .buttonRow {
-    padding-top: var(--fixedPadding);
+    background: var(--lighter);
+    padding: var(--fixedPadding);
+    justify-content: center;
+    border: calc(var(--fixedPadding) / 2) solid var(--accent);
+    border-right: var(--fixedPadding) solid var(--accent);
+
 }
 
 @media screen and (max-width: 600px) {
@@ -551,17 +553,11 @@ button:active,
         flex-wrap: wrap;
         padding: 0;
         border-top: none;
-        border-left: var(--fixedPadding)solid var(--accent);
-    }
-
-    .contentRow p {
-        padding-left: 0;
-        padding-top: var(--fixedPadding);
     }
 
     .contentRow .buttonRow {
-        padding-top: 0;
-        padding-left: var(--fixedPadding);
+        border-right: calc(var(--fixedPadding) / 2) solid var(--accent);
+        border-bottom: var(--fixedPadding)solid var(--accent);
     }
 
     .buttonRow {

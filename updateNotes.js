@@ -11,6 +11,7 @@ export const updateNotes = [
             "Improved responsibility",
             "Added mobile menu",
             "Added scroll to top button",
+            "Added search functionality"
         ]
     },
     {

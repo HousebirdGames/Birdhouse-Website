@@ -1,6 +1,8 @@
 // Required imports
 import * as main from "./Birdhouse/src/main.js";
 import { displayError, clearError } from "./Birdhouse/src/modules/input-validation.js";
+import { markdown } from "./Birdhouse/src/modules/markdown.js";
+import config from "./config.js";
 
 import { dynamicRoutes } from './src/dynamic-routes.js';
 
@@ -15,12 +17,14 @@ window.hook('before-adding-base-content', async function (menuHTML) {
 
     headerElement.innerHTML = `<img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo"/>
                                 <div class="buttonWrap hideOnSmall">
-                                <button class="toggleDarkMode"><span class="material-icons">light_mode</span></button>
-                                <a href="readme.md" class="menuButton"><span class="material-icons spaceRight">subject</span><span class="linkText">Docs</span></a>
+                                <button class="openSearch"><span class="material-icons">search</span></button>
                                 ${menuHTML}
+                                <a href="readme.md" class="menuButton"><span class="material-icons spaceRight">subject</span><span class="linkText">Docs</span></a>
+                                <button class="toggleDarkMode"><span class="material-icons">light_mode</span></button>
                                 </div>
                                 <div class="buttonWrap hideOnLarge">
                                 <button class="toggleDarkMode"><span class="material-icons">light_mode</span></button>
+                                <button class="openSearch"><span class="material-icons">search</span></button>
                                 <button id="menuButton"><span class="material-icons">menu</span></button>
                                 </div>
                             `;
@@ -94,7 +98,143 @@ window.hook('on-content-loaded', async function () {
             scrollTopButton.style.bottom = '1rem';
         }
     }
+
+    main.action({
+        type: 'click',
+        handler: (e) => {
+            main.popupManager.openPopup('searchPopup');
+            document.getElementById('searchInput').focus();
+        },
+        selector: '.openSearch'
+    });
+
+    main.action({
+        type: 'input',
+        handler: (e) => {
+            startSearch();
+        },
+        selector: '.searchInput',
+        debounce: 100
+    });
+
+    main.action(() => {
+        const searchInput = document.getElementById('searchInput');
+        const searchTerm = main.getQueryParameterByName('search');
+
+        searchInput.value = searchTerm;
+        startSearch();
+
+        if (searchTerm) {
+            setTimeout(() => {
+                highlightAndScrollToSearchTerm(searchTerm);
+            }, 1000);
+        }
+    });
 });
+
+function highlightAndScrollToSearchTerm(searchTerm) {
+    const pageColumnEntry = document.querySelector('.pageColumn.entry');
+    if (!pageColumnEntry || !searchTerm) return;
+
+    function highlightText(node) {
+        if (node.nodeType === 3) {
+            const matchIndex = node.data.toLowerCase().indexOf(searchTerm.toLowerCase());
+            if (matchIndex >= 0) {
+                const matchEnd = matchIndex + searchTerm.length;
+
+                const matchText = node.splitText(matchIndex);
+                matchText.splitText(searchTerm.length);
+
+                const highlightSpan = document.createElement('span');
+                highlightSpan.className = 'search-highlight';
+                highlightSpan.textContent = matchText.data;
+
+                matchText.parentNode.replaceChild(highlightSpan, matchText);
+
+                return highlightSpan;
+            }
+        } else if (node.nodeType === 1 && node.childNodes && !/^(script|style)$/i.test(node.tagName)) {
+            for (let i = 0; i < node.childNodes.length; i++) {
+                const highlightSpan = highlightText(node.childNodes[i]);
+                if (highlightSpan) return highlightSpan;
+            }
+        }
+    }
+
+    const firstHighlight = highlightText(pageColumnEntry);
+    if (firstHighlight) {
+        firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+async function searchMarkdownFiles(searchTerm) {
+    const searchTermLower = searchTerm.toLowerCase();
+    const matchingRoutes = [];
+
+    for (const route of dynamicRoutes) {
+        try {
+            const path = route.markdownPath + "?v=" + config.version;
+            let content = '';
+            if (sessionStorage.getItem(path)) {
+                content = sessionStorage.getItem(path);
+            }
+            else {
+                const response = await fetch(path);
+                const responseText = await response.text();
+                const htmlContent = await markdown(responseText);
+                content = htmlContent.replace(/<span class="material-icons">[^<]*<\/span>/g, '').replace(/<[^>]*>/g, '');
+                sessionStorage.setItem(path, content);
+            }
+
+            const index = content.toLowerCase().indexOf(searchTermLower);
+
+            if (index !== -1) {
+                const start = Math.max(0, index - 10);
+                const end = Math.min(content.length, index + searchTerm.length + 200);
+
+                let snippet = content.substring(start, end).replace(new RegExp(searchTerm, 'gi'), match => `<mark>${match}</mark>`);
+
+                if (start > 0) snippet = '...' + snippet;
+                if (end < content.length) snippet += '...';
+
+                matchingRoutes.push({
+                    ...route,
+                    snippet
+                });
+            }
+        } catch (error) {
+            console.error(`Error fetching markdown file ${route.markdownPath}:`, error);
+        }
+    }
+
+    return matchingRoutes;
+}
+
+async function startSearch() {
+    const searchTerm = document.getElementById('searchInput').value;
+    if (!searchTerm) return;
+
+    const results = await searchMarkdownFiles(searchTerm);
+    const resultsContainer = document.getElementById('searchResults');
+    resultsContainer.innerHTML = '';
+
+    if (results.length === 0) {
+        resultsContainer.innerHTML = '<p>No matching results found.</p>';
+        return;
+    }
+
+    results.forEach(route => {
+        const link = route.originalPath.replace('Birdhouse/', '').toLocaleLowerCase() + '?search=' + searchTerm;
+        const searchResult = `
+        <div class="searchResult">
+            <a href="${link}" class="closePopup"><h3>${route.filename}</h3></a>
+            <p class="justify">${route.snippet}</p>
+            <a href="${link}" class="menuButton closePopup"><span class="linkText">View File</span><span class="material-icons spaceRight">arrow_right</span></a>
+        </div>
+        `;
+        resultsContainer.innerHTML += searchResult;
+    });
+}
 
 window.hook('before-actions-setup', async function () {
     main.action({
@@ -190,8 +330,8 @@ window.hook('get-popup-menu-html', async function (menuHTML) {
             <h1>Birdhouse</h1>
             </div>
             <br>
-            <a href="readme.md" class="menuButton closePopup"><span class="material-icons spaceRight">subject</span><span class="linkText">Documentation</span></a>
             ${menuHTML}
+            <a href="readme.md" class="menuButton closePopup"><span class="material-icons spaceRight">subject</span><span class="linkText">Documentation</span></a>
             <br>
 			<button class="closePopup menu menuButton"><span class="material-icons md-light spaceRight">close</span><span class="linkText">Close</span></button>
 		</div>
@@ -204,9 +344,19 @@ window.hook('page-loaded', async function () {
 });
 
 async function onPageLoaded() {
-    // Let's add some base content that will be included on every page.
     main.addBaseContent(`
         <button id="scrollToTopButton" class="invisible"><span class="material-icons">keyboard_double_arrow_up</span></button>
+        
+        <div id="searchPopup" class="popup">
+		<div class="popup-content big">
+            <h1>Search</h1>
+            <label><input type="text" id="searchInput" class="searchInput" placeholder="Search..." /></label>
+            <div id="searchResults">
+		    </div>
+            <button class="closePopup"><i class="material-icons">close</i></button>
+            <button class="closePopup closePopupIcon"><i class="material-icons">close</i></button>
+		</div>
+	    </div>
     `);
 
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
@@ -237,8 +387,8 @@ window.hook('create-routes', async function () {
     // You can even overwrite routes. So if you create a route with the same path, the previously defined route will be overwritten.
 
     // As we want something to view on our front page, let's reuse the example component, but not add it to the menu.
-    main.createPublicRoute('/get-started', 'Get started', 'done_all', 'components/get-started', true);
     main.createPublicRoute('/', 'Home', 'home', 'components/home', true, null, false);
+    main.createPublicRoute('/get-started', 'Get started', 'done_all', 'components/get-started', true);
     main.createPublicRoute('/index.html', 'Home', 'list', 'components/home', false);
     main.createPublicRoute('/privacy-policy', 'Privacy Policy', '', 'components/privacy-policy', false);
 });

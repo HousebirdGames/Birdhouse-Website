@@ -336,6 +336,57 @@ textarea::placeholder {
     align-self: center;
 }
 
+#searchPopup .popup-content {
+    min-height: 100%;
+    min-width: 100%;
+    background: var(--background);
+}
+
+mark {
+    background: var(--highlightHover);
+    color: var(--fontColor);
+}
+
+label {
+    width: 100%;
+    max-width: 40rem;
+}
+
+#searchInput {
+    background: var(--muchlighter);
+    border: 1px solid var(--darker);
+    color: var(--fontColor);
+    font-size: var(--fontSizeMedium);
+    border-radius: var(--borderRadius);
+}
+
+#searchResults {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding);
+}
+
+.searchResult {
+    width: 100%;
+    max-width: 40rem;
+    background-color: var(--accent);
+    padding: var(--padding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding);
+    box-sizing: border-box;
+}
+
+.searchResult .menuButton {
+    align-self: flex-end;
+}
+
+.search-highlight {
+    background: var(--highlightHover);
+    color: var(--fontColor);
+    pointer-events: none;
+}
+
 .fade-in-fast {
     animation-name: fade-in-fast;
     animation-duration: 0.2s;
@@ -401,6 +452,10 @@ button,
     transition: var(--transitionFast);
     background-color: var(--accent);
     font-size: var(--fontSize);
+}
+
+.linkText {
+    pointer-events: none;
 }
 
 header .text-false .linkText {
@@ -664,7 +719,6 @@ th.returns {
     position: absolute;
     top: 0.2rem;
     right: 0.2rem;
-
 }
 
 .buttonWrap,

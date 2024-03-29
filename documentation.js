@@ -120,12 +120,15 @@ async function extractTopComment(filePath) {
     const commentRegex = /(\/\*[\s\S]*?\*\/)|(<!--[\s\S]*?-->)/;
     const match = content.match(commentRegex);
     if (match) {
-        let commentLines = match[0].replace(/\/\*|\*\/|<!--|-->|#/g, '').trim().split('\n');
+        let rawComment = match[0].replace(/\/\*|\*\/|<!--|-->|#/g, '').trim();
+        rawComment = rawComment.replace(/\r|\n/g, ' ').replace(/\s+/g, ' ');
+        let commentLines = rawComment.split('\n');
         commentLines = commentLines.map(line => line.trim() === '' ? '<br>' : line.trim());
-        let comment = commentLines.join(' ').trim().replace(/^(<br>)+|(<br>)+$/g, '');
-        return '[p class=^topComment justify^]' + comment + '[/p]';
+        let formattedComment = commentLines.join(' ').trim().replace(/^(<br>)+|(<br>)+$/g, '');
+        formattedComment = '[p class=^topComment justify^]' + formattedComment + '[/p]';
+        return { rawComment, formattedComment };
     } else {
-        return "";
+        return { rawComment: "", formattedComment: "" };
     }
 }
 
@@ -174,7 +177,8 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
             const fileLink = `[a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/${entryRelativePath}^]view this file on GitHub[/a]`;
             content += `[p]You can ${fileLink}.[/p]`;
 
-            const comment = await extractTopComment(fullPath);
+            const commentObject = await extractTopComment(fullPath);
+            const comment = commentObject.formattedComment;
             content += `${comment}`;
 
 
@@ -240,7 +244,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                 originalPath: fullPath.replace(/\\/g, '/'),
                 markdownPath: markdownPath.replace(/\\/g, '/'),
                 filename: entry.name,
-                description: comment.length > 150 ? comment.slice(0, 150) + "..." : comment
+                description: commentObject.rawComment.length > 150 ? commentObject.rawComment.slice(0, 150) + "..." : commentObject.rawComment
             });
 
             structure[entry.name] = {

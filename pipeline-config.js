@@ -41,5 +41,11 @@ module.exports = {
     directoriesToExcludeFromCache: [
         "img/screenshots",
         "uploads"
+    ],
+    preReleaseScripts: [
+        'documentation.js'
+    ],
+    postReleaseScripts: [
+
     ]
 };

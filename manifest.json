@@ -1,7 +1,7 @@
 {
-    "name": "Your App Name",
-    "short_name": "Your App Name",
-    "description": "Your App Description",
+    "name": "Birdhouse Documentation",
+    "short_name": "Birdhouse Docs",
+    "description": "The documentation for the Birdhouse framework.",
     "lang": "en",
     "dir": "ltr",
     "start_url": "/index.html",

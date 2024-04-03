@@ -194,7 +194,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                 }
 
                 for (const variable of variables) {
-                    content += `[div class=^variable^ id=^${variable.name}^][h3]${variable.declarationType}<strong class="copyData" data-copy="${variable.name}">${variable.name}</strong> (${variable.def} ${variable.type}) [button href=^#${variable.name}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p class=^justify^]${variable.description}[/p][/div]`;
+                    content += `[div class=^variable^ id=^variable-${variable.name}^][h3]${variable.declarationType}<strong class="copyData" data-copy="${variable.name}">${variable.name}</strong> (${variable.def} ${variable.type}) [button href=^#variable-${variable.name}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p class=^justify^]${variable.description}[/p][/div]`;
                 }
 
                 const functions = await listFunctionsInJSFile(cleanedContent);
@@ -212,7 +212,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                     }
                     const parametersString = parameters.join(', ');
                     const parametersTypesString = parameterTypes.join(', ');
-                    content += `[div class=^function^ id=^${func.functionName}^][h3]${func.isDefault ? 'DEFAULT ' : ''}${func.isAsync ? 'async ' : ''}${func.declarationType}<strong class="copyData" data-copy="${func.declarationType == 'window.' ? 'window.' : ''}${func.functionName}(${parametersTypesString})">${func.functionName}</strong>${parameters.length > 0 ? `(${parametersString})` : ''} [button href=^#${func.functionName}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p class=^justify^]${func.description}[/p]`;
+                    content += `[div class=^function^ id=^function-${func.functionName}^][h3]${func.isDefault ? 'DEFAULT ' : ''}${func.isAsync ? 'async ' : ''}${func.declarationType}<strong class="copyData" data-copy="${func.declarationType == 'window.' ? 'window.' : ''}${func.functionName}(${parametersTypesString})">${func.functionName}</strong>${parameters.length > 0 ? `(${parametersString})` : ''} [button href=^#function-${func.functionName}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p class=^justify^]${func.description}[/p]`;
                     if (func.params.length > 0 || func.returns) {
                         content += '<table>';
                         if (func.params.length > 0) {

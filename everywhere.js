@@ -167,7 +167,7 @@ function highlightAndScrollToSearchTerm(searchTerm) {
     }
 }
 
-async function searchMarkdownFiles(searchTerm) {
+async function searchMarkdownFiles(searchTerm, resultsContainer = null) {
     const searchTermLower = searchTerm.toLowerCase();
     const matchingRoutes = [];
 
@@ -179,6 +179,9 @@ async function searchMarkdownFiles(searchTerm) {
                 content = sessionStorage.getItem(path);
             }
             else {
+                if (resultsContainer) {
+                    resultsContainer.innerHTML = '<p>Looking for results...</p>';
+                }
                 const response = await fetch(path);
                 const responseText = await response.text();
                 const htmlContent = await markdown(responseText);
@@ -214,8 +217,8 @@ async function startSearch() {
     const searchTerm = document.getElementById('searchInput').value;
     if (!searchTerm) return;
 
-    const results = await searchMarkdownFiles(searchTerm);
     const resultsContainer = document.getElementById('searchResults');
+    const results = await searchMarkdownFiles(searchTerm, resultsContainer);
     resultsContainer.innerHTML = '';
 
     if (results.length === 0) {

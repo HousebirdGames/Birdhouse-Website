@@ -200,9 +200,12 @@ async function searchMarkdownFiles(searchTerm, resultsContainer = null) {
                 if (start > 0) snippet = '...' + snippet;
                 if (end < content.length) snippet += '...';
 
+                const hits = (content.match(new RegExp(searchTermLower, 'g')) || []).length;
+
                 matchingRoutes.push({
                     ...route,
-                    snippet
+                    snippet,
+                    hits
                 });
             }
         } catch (error) {
@@ -232,7 +235,10 @@ async function startSearch() {
         <div class="searchResult">
             <a href="${link}" class="closePopup"><h3>${route.filename}</h3></a>
             <p class="justify">${route.snippet}</p>
+            <div class="linkRow">
+            <p class="hits">${route.hits} Occurences</p>
             <a href="${link}" class="menuButton closePopup"><span class="linkText">View File</span><span class="material-icons spaceRight">arrow_right</span></a>
+            </div>
         </div>
         `;
         resultsContainer.innerHTML += searchResult;

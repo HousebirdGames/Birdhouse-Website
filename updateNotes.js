@@ -4,6 +4,7 @@ export const updateNotes = [
         "title": "Release",
         "notes": [
             "Added full documentation",
+            "Added occurences counter to the search results",
             "Additional polishing",
         ]
     },

@@ -17,16 +17,7 @@
     --border: 0.1rem solid white;
     --borderRadius: 0rem;
     --borderRadiusButtons: 0rem;
-    --fontFamily: system-ui;
     --boxShadow: 0rem 0 1rem var(--lighter);
-    --fontSizeSmall: 0.8rem;
-    --fontSize: 1rem;
-    --fontSizeMedium: 1.2rem;
-    --fontSizeLarge: 1.4rem;
-    --fontSizeExtraLarge: 2rem;
-    --transitionFast: 0.1s ease-in-out;
-    --transitionNormal: 0.4s ease-in-out;
-    --transitionSlow: 1.4s ease-in-out;
 }
 
 @media screen and (max-width: 800px) {

@@ -1,13 +1,13 @@
 {
-    "name": "Birdhouse Documentation",
+    "name": "Birdhouse Framework Documentation",
     "short_name": "Birdhouse Docs",
-    "description": "The documentation for the Birdhouse framework.",
+    "description": "The documentation for the Birdhouse Framework.",
     "lang": "en",
     "dir": "ltr",
     "start_url": "/index.html",
     "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#ffffff",
+    "background_color": "#000000",
+    "theme_color": "#000000",
     "icons": [
         {
             "src": "img/icons/Icon-48x48.png",
@@ -54,18 +54,60 @@
     ],
     "screenshots": [
         {
-            "src": "img/screenshots/YOUR-APP-SCREENSHOT.png",
-            "sizes": "1280x720",
+            "src": "img/screenshots/Birdhouse-FrontPage.PNG",
+            "sizes": "1920x1079",
             "type": "image/png",
             "form_factor": "wide",
-            "label": "Describe what's happening in the screenshot."
+            "label": "The home page of the Birdhouse documentation site."
         },
         {
-            "src": "img/screenshots/YOUR-APP-SCREENSHOT.png",
-            "sizes": "1280x720",
+            "src": "img/screenshots/Birdhouse-Readme-Dark.PNG",
+            "sizes": "1920x1079",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "The README page of the Birdhouse documentation site in dark mode."
+        },
+        {
+            "src": "img/screenshots/Birdhouse-Readme.PNG",
+            "sizes": "1920x1079",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "The README page of the Birdhouse documentation site in light mode."
+        },
+        {
+            "src": "img/screenshots/Birdhouse-MainJS.PNG",
+            "sizes": "1920x1079",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "The main.js documentation page of the Birdhouse documentation site."
+        },
+        {
+            "src": "img/screenshots/Birdhouse-FrontPage.PNG",
+            "sizes": "1920x1079",
             "type": "image/png",
             "form_factor": "narrow",
-            "label": "Describe what's happening in the screenshot."
+            "label": "The home page of the Birdhouse documentation site."
+        },
+        {
+            "src": "img/screenshots/Birdhouse-Readme-Dark.PNG",
+            "sizes": "1920x1079",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "The README page of the Birdhouse documentation site in dark mode."
+        },
+        {
+            "src": "img/screenshots/Birdhouse-Readme.PNG",
+            "sizes": "1920x1079",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "The README page of the Birdhouse documentation site in light mode."
+        },
+        {
+            "src": "img/screenshots/Birdhouse-MainJS.PNG",
+            "sizes": "1920x1079",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "The main.js documentation page of the Birdhouse documentation site."
         }
     ]
 }

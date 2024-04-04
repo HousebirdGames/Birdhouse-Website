@@ -3,7 +3,7 @@ export default async function Home() {
     return `
     <div class="pageRow centered">
     <img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo big"/>
-    <h1>Welcome to Birdhouse</h1>
+    <span><h3>Welcome to the</h3><h1>Birdhouse Framework</h1></span>
     </div>
     <div class="centerContent">
     <h3>What is Birdhouse?</h3>
@@ -13,6 +13,7 @@ export default async function Home() {
             <div class="buttonRow">
                 <a class="menuButton" href="get-started">Get Started</a>
                 <a class="menuButton" href="https://github.com/HousebirdGames/Birdhouse">View on GitHub</a>
+                <a class="menuButton" href="license.txt">View License</a>
             </div>
         </div>
         <h3>What can be build with Birdhouse?</h3>

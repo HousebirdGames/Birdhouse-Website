@@ -200,7 +200,7 @@ async function searchMarkdownFiles(searchTerm, resultsContainer = null) {
                 if (start > 0) snippet = '...' + snippet;
                 if (end < content.length) snippet += '...';
 
-                const hits = (content.match(new RegExp(searchTermLower, 'g')) || []).length;
+                const hits = (content.match(new RegExp(searchTerm, 'gi')) || []).length;
 
                 matchingRoutes.push({
                     ...route,
@@ -218,9 +218,12 @@ async function searchMarkdownFiles(searchTerm, resultsContainer = null) {
 
 async function startSearch() {
     const searchTerm = document.getElementById('searchInput').value;
-    if (!searchTerm) return;
-
     const resultsContainer = document.getElementById('searchResults');
+    if (!searchTerm) {
+        resultsContainer.innerHTML = '';
+        return;
+    }
+
     const results = await searchMarkdownFiles(searchTerm, resultsContainer);
     resultsContainer.innerHTML = '';
 
@@ -233,10 +236,11 @@ async function startSearch() {
         const link = route.originalPath.replace('Birdhouse/', '').toLocaleLowerCase() + '?search=' + searchTerm;
         const searchResult = `
         <div class="searchResult">
-            <a href="${link}" class="closePopup"><h3>${route.filename}</h3></a>
+        <a href="${link}" class="closePopup"><h3>${route.filename}</h3></a>
+        <p class="filePath"><span class="material-icons spaceRight">description</span>${route.originalPath}</p>
             <p class="justify">${route.snippet}</p>
             <div class="linkRow">
-            <p class="hits">${route.hits} Occurences</p>
+            <p class="hits">${route.hits} ${route.hits == 1 ? 'Occurence' : 'Occurences'}</p>
             <a href="${link}" class="menuButton closePopup"><span class="linkText">View File</span><span class="material-icons spaceRight">arrow_right</span></a>
             </div>
         </div>

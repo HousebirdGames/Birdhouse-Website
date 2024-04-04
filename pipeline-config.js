@@ -13,7 +13,7 @@ module.exports = {
     faviconSizes: [
 
     ],
-    manifestIconPath: "img/logos-originals/Birdhouse-Logo.jpg",
+    manifestIconPath: "img/logos-originals/Birdhouse-Logo-Small.jpg",
     manifestIconOutputDir: "img/icons",
     manifestIconFileName: "Icon",
     manifestIconSizes: [

@@ -5,6 +5,9 @@ export const updateNotes = [
         "notes": [
             "Added full documentation",
             "Added occurences counter to the search results",
+            "Added file path to the search results",
+            "New fonts and updated highlight colors",
+            "Added guidelines and license links",
             "Additional polishing",
         ]
     },

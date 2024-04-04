@@ -11,6 +11,7 @@
     --highlight: #3f9fee;
     --highlightHover: #83c7ff;
     --highlightActive: #158ef1;
+    --searchHighlight: #b3ddff;
     --background: #e6e4df;
     --warning: rgb(218, 113, 113);
     --none: rgb(255, 255, 255, 0);
@@ -19,18 +20,46 @@
     --border: 0.1rem solid white;
     --borderRadius: 0rem;
     --borderRadiusButtons: 0rem;
-    --fontFamily: system-ui;
+    --fontFamily: 'Rubik', sans-serif;
     --boxShadow: 0rem 0 1rem var(--darker);
     --fontSizeSmall: 0.8rem;
-    --fontSize: 1rem;
-    --fontSizeMedium: 1.2rem;
-    --fontSizeLarge: 1.4rem;
-    --fontSizeExtraLarge: 2rem;
+    --fontSize: 0.9rem;
+    --fontSizeMedium: 1.1rem;
+    --fontSizeLarge: 1.3rem;
+    --fontSizeExtraLarge: 1.9rem;
     --transitionFast: 0.1s ease-in-out;
     --transitionNormal: 0.4s ease-in-out;
     --transitionSlow: 1.4s ease-in-out;
 
     --fixedPadding: 1rem;
+}
+
+@font-face {
+    font-family: 'Fragment Mono';
+    font-style: normal;
+    src: url('./fonts/Fragment_Mono/FragmentMono-Regular.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Fragment Mono';
+    font-style: italic;
+    src: url('./fonts/Fragment_Mono/FragmentMono-Italic.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    font-style: normal;
+    src: url('./fonts/Rubik/Rubik-VariableFont_wght.ttf');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    font-style: italic;
+    src: url('./fonts/Rubik/Rubik-Italic-VariableFont_wght.ttf');
+    font-display: swap;
 }
 
 @media screen and (max-width: 800px) {
@@ -97,7 +126,7 @@ header {
 
 @media screen and (max-width: 1000px) {
     #content {
-        padding: 1rem 2rem 4rem 1rem;
+        padding: 1.5rem 1.5rem 4rem 1.5rem;
     }
 }
 
@@ -134,8 +163,13 @@ li {
     text-align: left;
 }
 
+code {
+    font-family: 'Fragment Mono', monospace;
+}
+
 pre code,
 .copyData {
+    font-family: 'Fragment Mono', monospace;
     overflow-wrap: break-word;
     word-wrap: break-word;
     white-space: pre-wrap;
@@ -246,6 +280,10 @@ h5 {
     margin-top: 1rem;
 }
 
+#content .pageRow.centered h3 {
+    margin: unset;
+}
+
 a {
     color: var(--highlight);
     text-decoration: none;
@@ -262,13 +300,16 @@ a:active {
 
 p.justify {
     text-align: justify;
-    word-wrap: break-word;
+    word-break: break-word;
 }
 
 p.filePath {
     font-size: var(--fontSizeMedium);
-    word-wrap: break-word;
-    line-break: anywhere;
+    word-break: break-all;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
 
 strong {
@@ -320,7 +361,7 @@ textarea::placeholder {
     text-align: center;
     border-radius: var(--borderRadius);
     box-shadow: var(--boxShadow);
-    line-break: anywhere;
+    word-break: break-word;
 }
 
 .popup-content h2,
@@ -343,7 +384,7 @@ textarea::placeholder {
 }
 
 mark {
-    background: var(--highlightHover);
+    background: var(--searchHighlight);
     color: var(--fontColor);
 }
 
@@ -394,7 +435,7 @@ label {
 }
 
 .search-highlight {
-    background: var(--highlightHover);
+    background: var(--searchHighlight);
     color: var(--fontColor);
     pointer-events: none;
 }

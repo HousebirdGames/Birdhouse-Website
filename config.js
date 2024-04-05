@@ -1,5 +1,5 @@
 export default {
-  "version": "1.2.0.8",
+  "version": "1.2.0.10",
   "pageTitle": "Birdhouse",
   "cookieIdentifier": "birdhouse",
   "foundationYear": 2024,

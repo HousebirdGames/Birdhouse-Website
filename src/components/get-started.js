@@ -8,10 +8,12 @@ export default async function Home() {
     <div class="centerContent">
         <div class="contentRow">
             <p class="justify">The Readme provides instructions on setting up Birdhouse and configuring the pipeline. It's the perfect starting point for new users.
+            <br><br>The changelog lists all the commits made to the project, so you can keep track of the latest updates.
             <br><br>Also please make sure that you adhere to our guidelines.
             </p>
             <div class="buttonRow">
                 <a class="menuButton" href="readme.md">View Readme</a>
+                <a class="menuButton" href="changelog">View Changelog</a>
                 <a class="menuButton" href="guidelines.md">View Guidelines</a>
                 <a class="menuButton" href="license.txt">View License</a>
             </div>

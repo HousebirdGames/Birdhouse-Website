@@ -20,6 +20,7 @@ window.hook('before-adding-base-content', async function (menuHTML) {
                                 <button class="openSearch"><span class="material-icons">search</span></button>
                                 ${menuHTML}
                                 <a href="readme.md" class="menuButton"><span class="material-icons spaceRight">subject</span><span class="linkText">Docs</span></a>
+                                <a href="changelog" class="menuButton"><span class="material-icons spaceRight">sync_alt</span><span class="linkText">Log</span></a>
                                 <button class="toggleDarkMode"><span class="material-icons">light_mode</span></button>
                                 </div>
                                 <div class="buttonWrap hideOnLarge">
@@ -241,7 +242,7 @@ async function startSearch() {
             <p class="justify">${route.snippet}</p>
             <div class="linkRow">
             <p class="hits">${route.hits} ${route.hits == 1 ? 'Occurence' : 'Occurences'}</p>
-            <a href="${link}" class="menuButton closePopup"><span class="linkText">View File</span><span class="material-icons spaceRight">arrow_right</span></a>
+            <a href="${link}" class="menuButton closePopup viewSearchLink"><span class="linkText">View</span><span class="material-icons">arrow_right</span></a>
             </div>
         </div>
         `;
@@ -345,6 +346,7 @@ window.hook('get-popup-menu-html', async function (menuHTML) {
             <br>
             ${menuHTML}
             <a href="readme.md" class="menuButton closePopup"><span class="material-icons spaceRight">subject</span><span class="linkText">Documentation</span></a>
+            <a href="changelog" class="menuButton closePopup"><span class="material-icons spaceRight">sync_alt</span><span class="linkText">Changelog</span></a>
             <br>
 			<button class="closePopup menu menuButton"><span class="material-icons md-light spaceRight">close</span><span class="linkText">Close</span></button>
 		</div>

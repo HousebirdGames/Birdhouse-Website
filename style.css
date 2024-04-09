@@ -440,6 +440,10 @@ label {
     pointer-events: none;
 }
 
+a.viewSearchLink {
+    padding-right: 0.1rem;
+}
+
 .fade-in-fast {
     animation-name: fade-in-fast;
     animation-duration: 0.2s;
@@ -823,4 +827,16 @@ th.returns {
 
 .invisible {
     opacity: 0;
+}
+
+ul.changelogList,
+#updateContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding);
+}
+
+.commit {
+    font-size: var(--fontSizeSmall);
+    color: var(--muchDarker);
 }

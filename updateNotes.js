@@ -1,5 +1,12 @@
 export const updateNotes = [
     {
+        "version": "1.2.1",
+        "title": "Logged it!",
+        "notes": [
+            "Added changelog page, which is automatically generated from git commits",
+        ]
+    },
+    {
         "version": "1.2.0",
         "title": "Release",
         "notes": [

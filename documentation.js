@@ -1,3 +1,4 @@
+const { exec } = require('child_process');
 const fs = require('fs').promises;
 const path = require('path');
 const ignore = require('ignore');
@@ -256,6 +257,73 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
     }
 }
 
+async function generateChangelog(directoryPath, structure = directoryStructure) {
+    // Path to the submodule .git directory and work tree
+    const submoduleGitDir = directoryPath + '/.git';
+    const submoduleWorkTree = directoryPath;
+
+    // Execute git command to get commit hash, date, and message
+    await new Promise((resolve, reject) => {
+        exec(`git --git-dir=${submoduleGitDir} --work-tree=${submoduleWorkTree} log --pretty=format:"%h|%ad|%s" --date=format:"%Y-%m"`, async (err, stdout, stderr) => {
+            if (err) {
+                console.error(`exec error: ${err}`);
+                reject(err);
+                return;
+            }
+
+            // Split the output by new line to get each commit and parse it
+            const commits = stdout.split('\n').map(commit => {
+                const [hash, date, message] = commit.split('|');
+                return { hash, date, message };
+            });
+
+            // Group commits by month
+            const commitsByMonth = {};
+            commits.forEach(({ hash, date, message }) => {
+                const month = date.slice(0, 7); // YYYY-MM
+                if (!commitsByMonth[month]) {
+                    commitsByMonth[month] = [];
+                }
+                commitsByMonth[month].push({ hash, message });
+            });
+
+            // Start building the HTML
+            let html = '';
+            Object.entries(commitsByMonth).forEach(([month, commits]) => {
+                html += `<h2 id="month-${month}">[button href=^#month-${month}^ class=^copyLink^]${month} <span class="material-icons">link</span>[/button]</h2>\n<ul class="changelogList">\n`;
+                commits.forEach(({ hash, message }) => {
+                    html += `  <li>${message} <a href="https://github.com/HousebirdGames/Birdhouse/commit/${hash}" class="commit">(Commit ${hash})</a></li>\n`;
+                });
+                html += '</ul>\n';
+            });
+
+            // Write the HTML to a file
+            await fs.writeFile('./docs/changelog.md', html, (err) => {
+                if (err) {
+                    console.error(err);
+                    reject(err);
+                    return;
+                }
+                console.log('Commit history by month has been written to commit-history-by-month.html');
+            });
+
+            routes.push({
+                originalPath: 'Birdhouse/Changelog',
+                markdownPath: './docs/changelog.md',
+                filename: 'Changelog',
+                description: 'View the commit history by month.'
+            });
+
+            /* structure['Changelog'] = {
+                path: 'changelog',
+            }; */
+
+            console.log('Changelog generated successfully.');
+            resolve();
+        });
+    });
+}
+
 async function main() {
     const birdhousePath = './Birdhouse';
     const ig = await readGitignore(birdhousePath);
@@ -263,6 +331,8 @@ async function main() {
     await fs.rm('./docs', { recursive: true, force: true });
     await fs.mkdir('./docs', { recursive: true });
     await generateDocumentation(birdhousePath, ig);
+
+    await generateChangelog(birdhousePath);
 
     await fs.writeFile('./src/dynamic-routes.js', `export const dynamicRoutes = ${JSON.stringify(routes, null, 2)};`, 'utf-8');
 

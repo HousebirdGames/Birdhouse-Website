@@ -31,7 +31,7 @@ async function listFunctionsInJSFile(content) {
         let description = descriptionLines.join(' ').trim().replace(/^(<br>)+|(<br>)+$/g, '');
 
         const params = [];
-        const paramRegex = /\* @param {(\w+)} (\[?.+?\]?) (.+)/g;
+        const paramRegex = /\* @param {([^}]+)} (\[?.+?\]?) (.+)/g;
         let paramMatch;
         while ((paramMatch = paramRegex.exec(jsDoc)) !== null) {
             params.push({

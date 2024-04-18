@@ -4,6 +4,7 @@ export const updateNotes = [
         "title": "Logged it!",
         "notes": [
             "Added changelog page, which is automatically generated from git commits",
+            "Added documentation for the available hooks"
         ]
     },
     {

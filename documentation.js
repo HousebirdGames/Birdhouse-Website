@@ -120,17 +120,58 @@ async function extractTopComment(filePath) {
     const content = await fs.readFile(filePath, 'utf-8');
     const commentRegex = /(\/\*[\s\S]*?\*\/)|(<!--[\s\S]*?-->)/;
     const match = content.match(commentRegex);
+
     if (match) {
         let rawComment = match[0].replace(/\/\*|\*\/|<!--|-->|#/g, '').trim();
-        rawComment = rawComment.replace(/\r|\n/g, ' ').replace(/\s+/g, ' ');
-        let commentLines = rawComment.split('\n');
-        commentLines = commentLines.map(line => line.trim() === '' ? '<br>' : line.trim());
-        let formattedComment = commentLines.join(' ').trim().replace(/^(<br>)+|(<br>)+$/g, '');
+        let formattedComment = rawComment
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line !== '')
+            .join('<br><br>');
+
         formattedComment = '[p class=^topComment justify^]' + formattedComment + '[/p]';
         return { rawComment, formattedComment };
     } else {
         return { rawComment: "", formattedComment: "" };
     }
+}
+
+function extractHookCommentsAndNames(jsContent) {
+    const hookRegex = /\/\*\*([\s\S]*?)\*\/\s*window\.hook\((?:'|&#039;)([^']+?)(?:'|&#039;),/g;
+    let match;
+    const hooks = [];
+
+    while ((match = hookRegex.exec(jsContent)) !== null) {
+        let commentLines = match[1].trim().split('\n').map(line => line.trim().replace(/^\*\s*/, ''));
+
+        let annotations = {};
+        let comment = "";
+
+        commentLines.forEach(line => {
+            const annotationMatch = line.match(/@(\w+)\s+(.+)/);
+            if (annotationMatch) {
+                const key = annotationMatch[1];
+                const value = annotationMatch[2];
+                annotations[key] = value;
+                return;
+            }
+
+            if (line === '') {
+                comment += ' <br> ';
+            } else {
+                comment += line + ' ';
+            }
+        });
+
+        const hookName = match[2];
+        hooks.push({
+            hookName,
+            description: comment.trim(),
+            annotations
+        });
+    }
+
+    return hooks;
 }
 
 function convertMarkdownToHTML(mdContent) {
@@ -155,6 +196,7 @@ async function escapeHTMLSpecialCharacters(content) {
 
 const routes = [];
 const directoryStructure = {};
+let hooksContent = '';
 
 async function generateDocumentation(directoryPath, ig, basePath = '', structure = directoryStructure) {
     const entries = await fs.readdir(directoryPath, { withFileTypes: true });
@@ -230,6 +272,15 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                     }
                     content += "[/div]";
                 }
+
+
+                if (cleanedContent.includes('window.hook')) {
+                    const hooks = extractHookCommentsAndNames(cleanedContent);
+                    for (const hook of hooks) {
+                        hooksContent += `[div class=^hook^ id=^hook-${hook.hookName}^][h3]Hook: <strong class="copyData" data-copy="window.hook('${hook.hookName}', async function (${hook.annotations['params'] ? hook.annotations['params'] : ''}) {/* ${hook.description} */});">${hook.hookName}</strong> [button href=^#hook-${hook.hookName}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p class=^justify^]${hook.description}[/p]${hook.annotations['params'] ? `[p class=^annotation^]These are the parameters the hooks function will receive: <strong>${hook.annotations['params']}</strong>[/p]` : ''}[p class=^annotation^]When using this hook, its function should return: <strong>${hook.annotations['shouldReturn']}</strong>[/p][/div]`;
+                    }
+                }
+
             } else if (entry.name.endsWith('.txt')) {
                 content += (await fs.readFile(fullPath, 'utf-8')).split('\r\n\r\n').map(
                     paragraph => `[p class=^justify^]${paragraph.replace(/\r\n/g, ' ')}[/p]`
@@ -304,7 +355,7 @@ async function generateChangelog(directoryPath, structure = directoryStructure) 
                     reject(err);
                     return;
                 }
-                console.log('Commit history by month has been written to commit-history-by-month.html');
+                console.log('Commit history by month has been written to docs/changelog.md');
             });
 
             routes.push({
@@ -324,6 +375,30 @@ async function generateChangelog(directoryPath, structure = directoryStructure) 
     });
 }
 
+async function writeHooksOverview(content) {
+    // Start building the HTML
+    let html = '<h1>Hooks</h1><p>Here you find all hooks that are available.</p>' + content;
+
+    // Write the HTML to a file
+    await fs.writeFile('./docs/hooks.md', html, (err) => {
+        if (err) {
+            console.error(err);
+            reject(err);
+            return;
+        }
+        console.log('Hooks overview has been written to docs/hooks.md');
+    });
+
+    routes.push({
+        originalPath: 'Birdhouse/Hooks',
+        markdownPath: './docs/hooks.md',
+        filename: 'Hooks Overview',
+        description: 'View the overview of the hooks.'
+    });
+
+    console.log('Hooks overview generated successfully.');
+}
+
 async function main() {
     const birdhousePath = './Birdhouse';
     const ig = await readGitignore(birdhousePath);
@@ -331,6 +406,8 @@ async function main() {
     await fs.rm('./docs', { recursive: true, force: true });
     await fs.mkdir('./docs', { recursive: true });
     await generateDocumentation(birdhousePath, ig);
+
+    await writeHooksOverview(hooksContent);
 
     await generateChangelog(birdhousePath);
 

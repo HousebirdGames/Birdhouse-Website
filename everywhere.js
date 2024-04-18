@@ -391,7 +391,7 @@ window.hook('add-markdown-patterns', async function (html) {
     // We can replcae the pattern with some HTML, even a with a whole component
     html = html.replace(examplePattern, await Example()); */
 
-    return html;
+    //return html;
 });
 
 window.hook('create-routes', async function () {

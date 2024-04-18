@@ -280,7 +280,8 @@ h5 {
     margin-top: 1rem;
 }
 
-#content .pageRow.centered h3 {
+#content .pageRow.centered h3,
+h2#birdhouseStructure {
     margin: unset;
 }
 
@@ -296,6 +297,10 @@ a:hover {
 
 a:active {
     color: var(--highlightActive);
+}
+
+a h3 {
+    pointer-events: none;
 }
 
 p.justify {
@@ -580,8 +585,6 @@ button:active,
     padding: 0;
 }
 
-
-
 .contentRow {
     display: flex;
     flex-direction: row;
@@ -669,13 +672,20 @@ button:active,
 }
 
 .pageColumn.entry .function,
-.pageColumn.entry .variable {
+.pageColumn.entry .variable,
+.pageColumn.entry .hook {
     padding-bottom: var(--padding);
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: var(--padding);
     transition: var(--transitionFast);
+}
+
+p.annotation {
+    padding: calc(var(--padding) / 2);
+    border: solid 0.1rem var(--darker);
+    width: fit-content;
 }
 
 .activeAnchor {

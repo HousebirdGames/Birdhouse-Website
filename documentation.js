@@ -123,13 +123,19 @@ async function extractTopComment(filePath) {
 
     if (match) {
         let rawComment = match[0].replace(/\/\*|\*\/|<!--|-->|#/g, '').trim();
-        let formattedComment = rawComment
-            .split('\n')
-            .map(line => line.trim())
-            .filter(line => line !== '')
-            .join('<br><br>');
+        let lines = rawComment.split('\n').map(line => line.trim());
 
-        formattedComment = '[p class=^topComment justify^]' + formattedComment + '[/p]';
+        let formattedComment = '';
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i] === '' && lines[i + 1] === '') {
+                formattedComment += '<br><br>';
+                i++;
+            } else if (lines[i] !== '') {
+                formattedComment += lines[i] + ' ';
+            }
+        }
+
+        formattedComment = '[p class=^topComment justify^]' + formattedComment.trim() + '[/p]';
         return { rawComment, formattedComment };
     } else {
         return { rawComment: "", formattedComment: "" };

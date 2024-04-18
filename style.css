@@ -704,9 +704,7 @@ p.annotation {
     animation: copied-animation 0.4s ease-in-out;
 }
 
-.topComment {
-    font-size: var(--fontSizeMedium);
-}
+.topComment {}
 
 table {
     display: block;

@@ -8,7 +8,7 @@
     --muchlighter: rgba(255, 255, 255, 0.6);
     --darker: rgba(0, 0, 0, 0.2);
     --muchDarker: rgba(0, 0, 0, 0.6);
-    --highlight: #3f9fee;
+    --highlight: #0F488A;
     --highlightHover: #83c7ff;
     --highlightActive: #158ef1;
     --searchHighlight: #b3ddff;
@@ -289,6 +289,16 @@ a {
     color: var(--highlight);
     text-decoration: none;
     transition: var(--transitionFast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+p a::after,
+.pageColumn.entry a::after {
+    content: "\e89e";
+    font-family: "Material Icons";
+    padding-left: 0.2rem;
 }
 
 a:hover {

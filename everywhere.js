@@ -15,7 +15,7 @@ window.hook('before-adding-base-content', async function (menuHTML) {
         return;
     }
 
-    headerElement.innerHTML = `<img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo"/>
+    headerElement.innerHTML = `<img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo" alt="Logo of the Birdhouse Framework"/>
                                 <div class="buttonWrap hideOnSmall">
                                 <button class="openSearch"><span class="material-icons">search</span></button>
                                 ${menuHTML}
@@ -340,7 +340,7 @@ window.hook('get-popup-menu-html', async function (menuHTML) {
     <div id="menu" class="popup">
 		<div class="menuList fade-left-menu">
             <div class="pageRow centered">
-            <img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo"/>
+            <img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo" alt="Logo of the Birdhouse Framework"/>
             <h1>Birdhouse</h1>
             </div>
             <br>

@@ -2,7 +2,7 @@ export default async function Home() {
 
     return `
     <div class="pageRow centered">
-    <img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo big"/>
+    <img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo big" alt="Logo of the Birdhouse Framework"/>
     <h1>Get Started</h1>
     </div>
     <div class="centerContent">

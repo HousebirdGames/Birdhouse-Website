@@ -15,7 +15,7 @@ export default async function Entry(route) {
     return `
     <div class="pageRow">
         <div class="pageColumn structure">
-        <a href="hooks" class="menuButton noBreak">View all Hooks</a>
+        <a href="hooks" class="menuButton noBreak"><span class="material-icons spaceRight">phishing</span>View all Hooks</a>
         ${await Structure()}
         </div>
         <div class="pageColumn entry">

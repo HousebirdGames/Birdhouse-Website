@@ -22,9 +22,9 @@ function generateHTMLForStructure(structure, depth = 0) {
         const activeClass = value.path && getRelativePath(pathToURL(value.path)).toLocaleLowerCase() === relativePath ? 'active' : '';
         const iconType = value.path || key.split('.').length > 1 ? 'description' : 'folder';
         const webPath = value.path ? pathToURL(value.path) : '#';
-        const linkStart = value.path ? `<a href="${webPath}" class="noBreak">${key}</a>` : `${key}`;
+        const linkStart = value.path ? `<a href="${webPath}" class="noBreak"><span class="material-icons">${iconType}</span>${key}</a>` : `<span class="material-icons">${iconType}</span>${key}`;
 
-        html += `<li class="${activeClass}"><span class="material-icons">${iconType}</span>${linkStart}`;
+        html += `<li class="${activeClass}">${linkStart}`;
 
         if (!value.path) {
             html += generateHTMLForStructure(value, depth + 1);

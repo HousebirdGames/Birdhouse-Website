@@ -233,7 +233,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                 const { variables, cleanedContent } = await listExportedAndWindowVariables(fileContent);
 
                 if (variables.length > 0) {
-                    content += '[h2 id=^variables^][button href=^#variables^ class=^copyLink^]Variables <span class="material-icons">link</span>[/button][/h2]';
+                    content += '[h2 id=^variables^][button href=^#variables^ class=^copyLink^]Variables<span class="material-icons spaceLeft">link</span>[/button][/h2]';
                 }
 
                 for (const variable of variables) {
@@ -243,7 +243,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                 const functions = await listFunctionsInJSFile(cleanedContent);
 
                 if (functions.length > 0) {
-                    content += '[h2 id=^functions^][button href=^#functions^ class=^copyLink^]Functions <span class="material-icons">link</span>[/button][/h2]';
+                    content += '[h2 id=^functions^][button href=^#functions^ class=^copyLink^]Functions<span class="material-icons spaceLeft">link</span>[/button][/h2]';
                 }
 
                 for (const func of functions) {
@@ -341,7 +341,7 @@ async function generateChangelog(directoryPath, structure = directoryStructure) 
             // Start building the HTML
             let html = '';
             Object.entries(commitsByMonth).forEach(([month, commits]) => {
-                html += `<h2 id="month-${month}">[button href=^#month-${month}^ class=^copyLink^]${month} <span class="material-icons">link</span>[/button]</h2>\n<ul class="changelogList">\n`;
+                html += `<h2 id="month-${month}">[button href=^#month-${month}^ class=^copyLink^]${month}<span class="material-icons spaceLeft">link</span>[/button]</h2>\n<ul class="changelogList">\n`;
                 commits.forEach(({ hash, message }) => {
                     html += `  <li>${message} <a href="https://github.com/HousebirdGames/Birdhouse/commit/${hash}" class="commit">(Commit ${hash})</a></li>\n`;
                 });

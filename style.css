@@ -173,7 +173,6 @@ pre code,
     overflow-wrap: break-word;
     word-wrap: break-word;
     white-space: pre-wrap;
-    word-break: break-all;
     max-width: 100%;
     background: var(--muchlighter);
     padding: 0.4rem 0.64rem;
@@ -295,7 +294,8 @@ a {
 }
 
 p a::after,
-.pageColumn.entry a::after {
+.pageColumn.entry p a::after,
+.pageColumn.entry li a::after {
     content: "\e89e";
     font-family: "Material Icons";
     padding-left: 0.2rem;
@@ -764,6 +764,17 @@ th.returns {
 
 .fileList ul {
     border-left: 1px solid var(--darker);
+}
+
+.fileList ul,
+ul.fileList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.fileList ul {
+    padding-top: 0.2rem;
 }
 
 #updatePopup .popup-content {

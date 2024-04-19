@@ -137,32 +137,51 @@ function highlightAndScrollToSearchTerm(searchTerm) {
     const pageColumnEntry = document.querySelector('.pageColumn.entry');
     if (!pageColumnEntry || !searchTerm) return;
 
+    // Function to recursively highlight text in text nodes
     function highlightText(node) {
-        if (node.nodeType === 3) {
-            const matchIndex = node.data.toLowerCase().indexOf(searchTerm.toLowerCase());
-            if (matchIndex >= 0) {
-                const matchEnd = matchIndex + searchTerm.length;
+        let firstHighlight = null;
 
-                const matchText = node.splitText(matchIndex);
-                matchText.splitText(searchTerm.length);
+        if (node.nodeType === 3) { // Node is a text node
+            const nodeDataLower = node.data.toLowerCase();
+            let startIndex = 0;
+            let matchIndex = nodeDataLower.indexOf(searchTerm.toLowerCase(), startIndex);
+
+            while (matchIndex !== -1) {
+                const matchEnd = matchIndex + searchTerm.length;
+                const beforeMatch = node.splitText(matchIndex);
+                const matchText = beforeMatch.splitText(searchTerm.length);
 
                 const highlightSpan = document.createElement('span');
                 highlightSpan.className = 'search-highlight';
-                highlightSpan.textContent = matchText.data;
+                highlightSpan.textContent = beforeMatch.data;
+                beforeMatch.parentNode.replaceChild(highlightSpan, beforeMatch);
 
-                matchText.parentNode.replaceChild(highlightSpan, matchText);
+                // Update node to the next sibling (text node after the highlight)
+                node = matchText;
+                startIndex = 0;
+                matchIndex = node.data.toLowerCase().indexOf(searchTerm.toLowerCase(), startIndex);
 
-                return highlightSpan;
+                if (!firstHighlight) {
+                    firstHighlight = highlightSpan; // Only set the first highlight once
+                }
             }
         } else if (node.nodeType === 1 && node.childNodes && !/^(script|style)$/i.test(node.tagName)) {
-            for (let i = 0; i < node.childNodes.length; i++) {
-                const highlightSpan = highlightText(node.childNodes[i]);
-                if (highlightSpan) return highlightSpan;
-            }
+            // Recurse through child nodes
+            Array.from(node.childNodes).forEach(childNode => {
+                const result = highlightText(childNode);
+                if (result && !firstHighlight) {
+                    firstHighlight = result;
+                }
+            });
         }
+
+        return firstHighlight;
     }
 
+    // Start highlighting from the root entry element
     const firstHighlight = highlightText(pageColumnEntry);
+
+    // If there's at least one highlight, scroll to it
     if (firstHighlight) {
         firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }

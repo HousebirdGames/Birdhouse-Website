@@ -173,6 +173,7 @@ pre code,
     overflow-wrap: break-word;
     word-wrap: break-word;
     white-space: pre-wrap;
+    line-break: anywhere;
     max-width: 100%;
     background: var(--muchlighter);
     padding: 0.4rem 0.64rem;
@@ -277,11 +278,24 @@ h5 {
 #content h5,
 #content h6 {
     margin-top: 1rem;
+    width: 100%;
 }
 
 #content .pageRow.centered h3,
 h2#birdhouseStructure {
     margin: unset;
+}
+
+@media screen and (max-width: 380px) {
+
+    .mainHeading h1,
+    h3 {
+        text-align: center;
+    }
+
+    .mainHeading h3 {
+        opacity: 0.5;
+    }
 }
 
 a {
@@ -290,7 +304,7 @@ a {
     transition: var(--transitionFast);
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 p a {
@@ -879,4 +893,8 @@ ul.changelogList,
 .commit {
     font-size: var(--fontSizeSmall);
     color: var(--muchDarker);
+}
+
+#installButton {
+    display: none;
 }

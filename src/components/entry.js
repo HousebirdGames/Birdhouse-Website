@@ -15,12 +15,13 @@ export default async function Entry(route) {
     return `
     <div class="pageRow">
         <div class="pageColumn structure">
-        <a href="hooks" class="menuButton noBreak"><span class="material-icons spaceRight">phishing</span>View all Hooks</a>
+        <a href="hooks" class="menuButton noBreak hideOnSmall"><span class="material-icons spaceRight">phishing</span>View all Hooks</a>
         ${await Structure()}
         </div>
         <div class="pageColumn entry">
             <div class="buttonWrap start">
                 <a href="#birdhouseStructure" class="menuButton hideOnLarge"><span class="material-icons spaceRight">keyboard_double_arrow_down</span>To Structure</a>
+                <a href="hooks" class="menuButton noBreak hideOnLarge"><span class="material-icons spaceRight">phishing</span>View all Hooks</a>
                 <a href="#variables" id="variablesAnchorButton" class="menuButton hidden"><span class="material-icons spaceRight">keyboard_double_arrow_down</span>To Variables</a>
                 <a href="#functions" id="functionsAnchorButton" class="menuButton hidden"><span class="material-icons spaceRight">keyboard_double_arrow_down</span>To Functions</a>
             </div>

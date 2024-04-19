@@ -293,6 +293,16 @@ a {
     justify-content: center;
 }
 
+p a {
+    padding: 1rem;
+    margin: -1rem;
+}
+
+.buttonWrap a {
+    min-height: 1.8rem;
+}
+
+span a::after,
 p a::after,
 .pageColumn.entry p a::after,
 .pageColumn.entry li a::after {
@@ -810,6 +820,7 @@ ul.fileList {
     flex-wrap: wrap;
     gap: var(--padding);
     justify-content: center;
+    align-items: center;
 }
 
 .buttonWrap.start {

@@ -645,12 +645,10 @@ button:active,
 }
 
 .contentRow .buttonRow {
-    background: var(--lighter);
-    padding: var(--fixedPadding);
+    background: var(--accent);
     justify-content: center;
-    border: calc(var(--fixedPadding) / 2) solid var(--accent);
-    border-right: var(--fixedPadding) solid var(--accent);
-
+    border: var(--fixedPadding) solid var(--accent);
+    border-left: none;
 }
 
 @media screen and (max-width: 600px) {
@@ -661,8 +659,8 @@ button:active,
     }
 
     .contentRow .buttonRow {
-        border-right: calc(var(--fixedPadding) / 2) solid var(--accent);
-        border-bottom: var(--fixedPadding)solid var(--accent);
+        border: var(--fixedPadding) solid var(--accent);
+        border-top: none;
     }
 
     .buttonRow {
@@ -908,4 +906,5 @@ ul.changelogList,
 
 #installButton {
     display: none;
+    min-height: 1.8rem;
 }

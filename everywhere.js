@@ -137,11 +137,11 @@ function highlightAndScrollToSearchTerm(searchTerm) {
     const pageColumnEntry = document.querySelector('.pageColumn.entry');
     if (!pageColumnEntry || !searchTerm) return;
 
-    // Function to recursively highlight text in text nodes
+
     function highlightText(node) {
         let firstHighlight = null;
 
-        if (node.nodeType === 3) { // Node is a text node
+        if (node.nodeType === 3) {
             const nodeDataLower = node.data.toLowerCase();
             let startIndex = 0;
             let matchIndex = nodeDataLower.indexOf(searchTerm.toLowerCase(), startIndex);
@@ -152,21 +152,19 @@ function highlightAndScrollToSearchTerm(searchTerm) {
                 const matchText = beforeMatch.splitText(searchTerm.length);
 
                 const highlightSpan = document.createElement('span');
-                highlightSpan.className = 'search-highlight';
+                highlightSpan.classList.add('search-highlight');
                 highlightSpan.textContent = beforeMatch.data;
                 beforeMatch.parentNode.replaceChild(highlightSpan, beforeMatch);
 
-                // Update node to the next sibling (text node after the highlight)
                 node = matchText;
                 startIndex = 0;
                 matchIndex = node.data.toLowerCase().indexOf(searchTerm.toLowerCase(), startIndex);
 
                 if (!firstHighlight) {
-                    firstHighlight = highlightSpan; // Only set the first highlight once
+                    firstHighlight = highlightSpan;
                 }
             }
         } else if (node.nodeType === 1 && node.childNodes && !/^(script|style)$/i.test(node.tagName)) {
-            // Recurse through child nodes
             Array.from(node.childNodes).forEach(childNode => {
                 const result = highlightText(childNode);
                 if (result && !firstHighlight) {

@@ -477,6 +477,17 @@ label {
     background: var(--searchHighlight);
     color: var(--fontColor);
     pointer-events: none;
+    animation: fade-in-highlight 0.4s ease-out;
+}
+
+@keyframes fade-in-highlight {
+    0% {
+        background: var(--none);
+    }
+
+    100% {
+        background: var(--searchHighlight);
+    }
 }
 
 a.viewSearchLink {

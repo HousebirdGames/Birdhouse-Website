@@ -6,6 +6,11 @@ export default async function Entry(route) {
     const response = await fetch(route.markdownPath);
     const fileContent = await response.text();
 
+    if (route.description == "") {
+        const description = `Learn more about ${route.originalPath}.`;
+        route.description = description;
+    }
+
     updateTitleAndMeta(route.filename, route.description);
 
     action(checkForContent);

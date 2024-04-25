@@ -3,7 +3,7 @@ export default {
   "pageTitle": "Birdhouse",
   "cookieIdentifier": "birdhouse",
   "foundationYear": 2024,
-  "pageDescription": "",
+  "pageDescription": "The documentation for the Birdhouse Framework.",
   "localhostPath": "/birdhouse_website",
   "excludedPaths": [],
   "openCookiePopupAtPageLoad": false,

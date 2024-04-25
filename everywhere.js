@@ -176,20 +176,30 @@ function highlightAndScrollToSearchTerm(searchTerm) {
         return firstHighlight;
     }
 
-    // Start highlighting from the root entry element
     const firstHighlight = highlightText(pageColumnEntry);
 
-    // If there's at least one highlight, scroll to it
     if (firstHighlight) {
         firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 }
 
-async function searchMarkdownFiles(searchTerm, resultsContainer = null) {
+let controller = null;
+async function searchMarkdownFiles(searchTerm, resultsContainer = null, promiseAll = false) {
+    if (controller) {
+        controller.abort();
+    }
+
+    controller = new AbortController();
+    const signal = controller.signal;
+
     const searchTermLower = searchTerm.toLowerCase();
     const matchingRoutes = [];
 
-    for (const route of dynamicRoutes) {
+    const routesToSearch = dynamicRoutes.length;
+    let currentRouteIndex = 0;
+
+    const fetchAndProcessRoute = async (route) => {
+        currentRouteIndex++;
         try {
             const path = route.markdownPath + "?v=" + config.version;
             let content = '';
@@ -198,9 +208,9 @@ async function searchMarkdownFiles(searchTerm, resultsContainer = null) {
             }
             else {
                 if (resultsContainer) {
-                    resultsContainer.innerHTML = '<p>Looking for results...</p>';
+                    resultsContainer.innerHTML = `<p>Looking for results... ${main.roundToFull((currentRouteIndex / routesToSearch) * 100)}%</p>`;
                 }
-                const response = await fetch(path);
+                const response = await fetch(path, { signal });
                 const responseText = await response.text();
                 const htmlContent = await markdown(responseText);
                 content = htmlContent.replace(/<span class="material-icons">[^<]*<\/span>/g, '').replace(/<[^>]*>/g, '');
@@ -227,9 +237,28 @@ async function searchMarkdownFiles(searchTerm, resultsContainer = null) {
                 });
             }
         } catch (error) {
+            if (error.name === 'AbortError') {
+                console.log('Search aborted');
+                return;
+            }
+
             console.error(`Error fetching markdown file ${route.markdownPath}:`, error);
+
+            if (resultsContainer) {
+                resultsContainer.innerHTML = `<p>Error fetching markdown file: ${route.markdownPath}.</p>`;
+            }
+        }
+    };
+
+    if (promiseAll) {
+        await Promise.all(dynamicRoutes.map(fetchAndProcessRoute));
+    } else {
+        for (const route of dynamicRoutes) {
+            await fetchAndProcessRoute(route);
         }
     }
+
+    controller = null;
 
     return matchingRoutes;
 }
@@ -395,6 +424,8 @@ async function onPageLoaded() {
     if (isDarkMode) {
         await main.loadCSS('themes/darkmode.css');
     }
+
+    searchMarkdownFiles('', null, true);
 }
 
 window.hook('user-logged-in', async function () {
@@ -620,5 +651,8 @@ window.hook('get-loading-content', async function () {
     //This will be in the content section until the current component is loaded. You can place skeleton loaders or a loading symbol here or just return an empty string.
 
     return `
+    <div class="loadingSymbolWrap">
+        <div class="loadingSymbol"></div>
+    </div>
     `;
 });

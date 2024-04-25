@@ -8,6 +8,8 @@ export const updateNotes = [
             "Enhanced search functionality which is now highlighting all occurences of the search term on the searched page",
             "Added install button (to install the documentation for offline use) to the front page",
             "Improved accessibility for links",
+            "Added pre caching for the search functionality",
+            "Improved loading experience for slower connections",
         ]
     },
     {

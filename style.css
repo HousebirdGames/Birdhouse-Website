@@ -242,6 +242,7 @@ ol li {
 li.active {
     font-weight: bold;
     color: var(--highlightActive);
+    pointer-events: none;
 }
 
 li.active a {
@@ -907,4 +908,46 @@ ul.changelogList,
 #installButton {
     display: none;
     min-height: 1.8rem;
+}
+
+/*Loading Symbol*/
+.loadingSymbol {
+    border: 0.4em dashed var(--fontColor);
+    border-radius: 50%;
+    width: 2em;
+    height: 2em;
+    animation: spin 1.4s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loadingSymbolWrap {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    animation: deferredFadeIn 2s ease-in-out;
+}
+
+@keyframes deferredFadeIn {
+
+    0%,
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

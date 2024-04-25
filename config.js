@@ -1,10 +1,10 @@
 export default {
-  "version": "1.2.1.26",
+  "version": "1.2.1.28",
   "pageTitle": "Birdhouse",
   "cookieIdentifier": "birdhouse",
   "foundationYear": 2024,
   "pageDescription": "The documentation for the Birdhouse Framework.",
-  "localhostPath": "/birdhouse_website",
+  "localhostPath": "/birdhouse-website",
   "excludedPaths": [],
   "openCookiePopupAtPageLoad": false,
   "showNewUpdateNotes": true,

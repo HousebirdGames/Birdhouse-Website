@@ -1,0 +1,2 @@
+[h1]default-style.css[/h1]
+[p]You can [a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/default-style.css^]view this file on GitHub[/a].[/p][p class=^topComment justify^]Contains the default styles to help you get started with the project quickly. It includes the CSS Normalize, Material Icons as well as some basic styles for the popup component and more. You can always remove it from your index.html, copy parts from it and check it for updates to useful defaults.[/p]

@@ -28,6 +28,6 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /birdhouse_website/index.html [L]
+RewriteRule . /birdhouse-website/index.html [L]
 
-FallbackResource /birdhouse_website/index.html
+FallbackResource /birdhouse-website/index.html

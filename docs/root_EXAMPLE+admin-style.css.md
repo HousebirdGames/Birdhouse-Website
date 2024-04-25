@@ -1,0 +1,2 @@
+[h1]admin-style.css[/h1]
+[p]You can [a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/root_EXAMPLE\admin-style.css^]view this file on GitHub[/a].[/p][p class=^topComment justify^]If you have implemented admin logins, this style will be loaded for the admin users.[/p]

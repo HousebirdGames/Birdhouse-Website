@@ -1,0 +1,2 @@
+[h1]style.css[/h1]
+[p]You can [a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/root_EXAMPLE\style.css^]view this file on GitHub[/a].[/p][p class=^topComment justify^]This is the example css file. It will be deployed to the root directory of the project on initialization.[/p]

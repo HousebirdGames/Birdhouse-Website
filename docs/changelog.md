@@ -1,5 +1,6 @@
 <h2 id="month-2024-04">[button href=^#month-2024-04^ class=^copyLink^]2024-04<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>All hidden files/folders (starting with .) are now excluded by default from builds/releases; Improved pipeline statistics generation <a href="https://github.com/HousebirdGames/Birdhouse/commit/c61a8ce" class="commit">(Commit c61a8ce)</a></li>
   <li>Updated wording to be more clear about the -local flag <a href="https://github.com/HousebirdGames/Birdhouse/commit/2085a49" class="commit">(Commit 2085a49)</a></li>
   <li>Added -local flag to pipeline that will build the project to the local dist directory instead of directly uploading it; Added distPath setting to the pipeline config; Added dist folder to the Birdhouse .gitignore; Improved cached size calculation to include the size of not-minified files; Polishing of the pipeline, including better error handling and logging; Updated Readme to include the new -local flag <a href="https://github.com/HousebirdGames/Birdhouse/commit/4111961" class="commit">(Commit 4111961)</a></li>
   <li>Improved install button handling <a href="https://github.com/HousebirdGames/Birdhouse/commit/0cca829" class="commit">(Commit 0cca829)</a></li>

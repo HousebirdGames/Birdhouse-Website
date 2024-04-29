@@ -125,10 +125,11 @@ module.exports = {
 <li><code>-root</code> or <code>-r</code>: Copies all files from /Birdhouse/root to the root directory and exits.</li>
 <li><code>-production</code> or <code>-p</code>: Release to the production environment.</li>
 <li><code>-staging</code> or <code>-s</code>: Release to the staging environment.</li>
+<li><code>-local</code> or <code>-l</code>: Builds the project to the local dist directory and thereby skips the upload to the server (so -p and -s are ignored).</li>
 <li><code>-version</code> or <code>-v</code>: Update the version of the <code>service-worker.js</code>.</li>
 <li><code>-cache</code> or <code>-c</code>: (Re-)Generate the <code>filesToCache.js</code> file.</li>
 <li><code>-minify</code> or <code>-m</code>: Minifies the files in filesToCache.js (before uploading them to the server; if not set, the original files will be uploaded).</li>
-<li><code>-delete</code> or <code>-d</code>: Delete the application directory (production or staging) from the server.</li>
+<li><code>-delete</code> or <code>-d</code>: Delete the application directory (production, staging or local) from the server.</li>
 <li><code>-backup</code> or <code>-b</code>: Creates a backup before deploying the new version that can be rolled back to.</li>
 <li><code>-rollback</code> or <code>-r</code>: Rollback to the backup version of either staging (<code>-s</code>) or production (<code>-p</code>), when available on the server.</li>
 <li><code>-info</code> or <code>-i</code>: Display detailed information about the process.</li>

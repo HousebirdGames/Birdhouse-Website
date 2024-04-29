@@ -2,6 +2,7 @@ module.exports = {
     sftpConfigFile: "../sftp-config.js",
     productionPath: "birdhouse_website",
     stagingPath: "birdhouse_website_staging",
+    distPath: "Birdhouse/dist",
     htaccessFile: "UPLOAD-THIS.htaccess",
     basePath: "/",
     databaseDir: "",
@@ -12,13 +13,13 @@ module.exports = {
     faviconsFileName: "Favicon",
     faviconSizes: [
 
-    ],
+        ],
     manifestIconPath: "img/logos-originals/Birdhouse-Logo-Small.jpg",
     manifestIconOutputDir: "img/icons",
     manifestIconFileName: "Icon",
     manifestIconSizes: [
 
-    ],
+        ],
     statisticsFile: "pipeline-log.txt",
     ignoredFileTypes: [
         ".zip",
@@ -26,7 +27,7 @@ module.exports = {
         ".txt",
         ".psd",
         ".htaccess"
-    ],
+        ],
     directoriesToInclude: [
         "src",
         "fonts",
@@ -37,15 +38,15 @@ module.exports = {
         "uploads",
         "docs",
         "themes"
-    ],
+        ],
     directoriesToExcludeFromCache: [
         "img/screenshots",
         "uploads"
-    ],
+        ],
     preReleaseScripts: [
-        'documentation.js'
-    ],
+        "documentation.js"
+        ],
     postReleaseScripts: [
 
-    ]
-};
+        ]
+    };

@@ -1,5 +1,6 @@
 <h2 id="month-2024-04">[button href=^#month-2024-04^ class=^copyLink^]2024-04<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>Added the addScript function to main.js that can be used to dynamically add a JavaScript file to the document's body <a href="https://github.com/HousebirdGames/Birdhouse/commit/219b04e" class="commit">(Commit 219b04e)</a></li>
   <li>Added option to not overwrite the content when loading a component <a href="https://github.com/HousebirdGames/Birdhouse/commit/41327c8" class="commit">(Commit 41327c8)</a></li>
   <li>All hidden files/folders (starting with .) are now excluded by default from builds/releases; Improved pipeline statistics generation <a href="https://github.com/HousebirdGames/Birdhouse/commit/c61a8ce" class="commit">(Commit c61a8ce)</a></li>
   <li>Updated wording to be more clear about the -local flag <a href="https://github.com/HousebirdGames/Birdhouse/commit/2085a49" class="commit">(Commit 2085a49)</a></li>

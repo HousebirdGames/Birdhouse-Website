@@ -8,7 +8,6 @@ import { dynamicRoutes } from './src/dynamic-routes.js';
 
 // More hooks might become available or necessary in the future.
 // Remember to keep your everywhere.js file up to date with the latest version of the example everywhere.js file.
-
 window.hook('before-adding-base-content', async function (menuHTML) {
     const headerElement = document.getElementById("header");
     if (!headerElement) {
@@ -198,10 +197,12 @@ async function searchMarkdownFiles(searchTerm, resultsContainer = null, promiseA
     const routesToSearch = dynamicRoutes.length;
     let currentRouteIndex = 0;
 
+    const currentVersion = config.version;
+
     const fetchAndProcessRoute = async (route) => {
         currentRouteIndex++;
         try {
-            const path = route.markdownPath + "?v=" + config.version;
+            const path = route.markdownPath + "?v=" + currentVersion;
             let content = '';
             if (sessionStorage.getItem(path)) {
                 content = sessionStorage.getItem(path);
@@ -249,6 +250,19 @@ async function searchMarkdownFiles(searchTerm, resultsContainer = null, promiseA
             }
         }
     };
+
+    let keysToRemove = [];
+
+    for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i);
+        if (!key.includes(`?v=${currentVersion}`)) {
+            keysToRemove.push(key);
+        }
+    }
+
+    for (let key of keysToRemove) {
+        sessionStorage.removeItem(key);
+    }
 
     if (promiseAll) {
         await Promise.all(dynamicRoutes.map(fetchAndProcessRoute));

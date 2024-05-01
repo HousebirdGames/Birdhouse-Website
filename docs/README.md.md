@@ -36,7 +36,7 @@
 </code></pre>
 </li>
 <li><p>Install the project pipeline dependencies and initialize the project:</p>
-<pre><code class="language-bash">npm start
+<pre><code class="language-bash">npm run start
 </code></pre>
 </li>
 </ol>
@@ -49,6 +49,16 @@
 <p>Open these files in your text editor and adjust the settings to match your project&#39;s requirements.</p>
 <p>Once you&#39;ve finished configuring the project, you can run it on your local machine. If you&#39;re using <a href="https://www.apachefriends.org/index.html">XAMPP</a>, start the XAMPP control panel, ensure Apache is running, and then navigate to the project in your web browser.</p>
 <p><strong>Important:</strong> Do not change the service-worker.js. It will get recopied to root on deployment and on root updates.</p>
+<h2>Local Development Server <strong>(experimental)</strong></h2>
+<p>The Birdhouse Framework includes a script, <code>server.js</code>, designed to simplify local development by serving your application directly from your development environment. This script is integral to simulating an Apache server environment, ensuring that your application behaves consistently between development and production. While <code>server.js</code> can function independently for basic tasks, it is primarily meant to be used alongside the <code>serve.js</code> script, which handles automatic file watching, building, and server restarting.</p>
+<p>To use <code>serve.js</code>, ensure you are in the <code>Birdhouse</code> directory, then execute this command:</p>
+<pre><code class="language-bash">node serve
+</code></pre>
+<pre><code class="language-bash">npm run serve
+</code></pre>
+<p> This starts the local server and begins serving your project from the <code>dist</code> directory, automatically applying any Apache-like .htaccess rules you have configured for HTTP headers.</p>
+<p>This setup not only mimics the production environment closely but also allows you to test changes instantly without manual refreshes, although you should manually reload your browser to see updates.</p>
+<p><strong>Important:</strong> Remember, <code>serve.js</code> and <code>server.js</code> are for local development purposes only and should not be used as a production server.</p>
 <h2>Project Structure</h2>
 <p>To utilize the pipeline, ensure you&#39;re in the Birdhouse directory by executing:</p>
 <pre><code class="language-bash">cd Birdhouse
@@ -126,6 +136,8 @@ module.exports = {
 <li><code>-production</code> or <code>-p</code>: Release to the production environment.</li>
 <li><code>-staging</code> or <code>-s</code>: Release to the staging environment.</li>
 <li><code>-local</code> or <code>-l</code>: Builds the project to the local dist directory and thereby skips the upload to the server (so -p and -s are ignored).</li>
+<li><code>-forced &lt;-p|-s|-l&gt;</code>: Forces the update (triggers a page reload after the new version is cached on the user&#39;s device), without notifying the user.</li>
+<li><code>-silent &lt;-p|-s|-l&gt;</code>: Performs a silent update which does not display the update notification and becomes active after the next page reload.</li>
 <li><code>-version</code> or <code>-v</code>: Update the version of the <code>service-worker.js</code>.</li>
 <li><code>-cache</code> or <code>-c</code>: (Re-)Generate the <code>filesToCache.js</code> file.</li>
 <li><code>-minify</code> or <code>-m</code>: Minifies the files in filesToCache.js (before uploading them to the server; if not set, the original files will be uploaded).</li>

@@ -1,3 +1,8 @@
+<h2 id="month-2024-05">[button href=^#month-2024-05^ class=^copyLink^]2024-05<span class="material-icons spaceLeft">link</span>[/button]</h2>
+<ul class="changelogList">
+  <li>Added the option to deploy/build the app through the pipeline while having serve.js active <a href="https://github.com/HousebirdGames/Birdhouse/commit/e8a4fea" class="commit">(Commit e8a4fea)</a></li>
+  <li>Added options for the release of silent and forced updates to the pipeline and service worker registration; Added experimental local development server and automated build process; Updated readme with the new flags and a section about the local development server <a href="https://github.com/HousebirdGames/Birdhouse/commit/ac0d7de" class="commit">(Commit ac0d7de)</a></li>
+</ul>
 <h2 id="month-2024-04">[button href=^#month-2024-04^ class=^copyLink^]2024-04<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
   <li>Added the addScript function to main.js that can be used to dynamically add a JavaScript file to the document's body <a href="https://github.com/HousebirdGames/Birdhouse/commit/219b04e" class="commit">(Commit 219b04e)</a></li>

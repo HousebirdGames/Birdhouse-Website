@@ -17,7 +17,6 @@ export default async function Entry(route) {
 
     loadCSS('src/components/structure.css');
 
-    console.log(route.originalPath);
     return `
     <div class="pageRow">
         <div class="pageColumn structure">

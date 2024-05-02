@@ -1,5 +1,7 @@
 <h2 id="month-2024-05">[button href=^#month-2024-05^ class=^copyLink^]2024-05<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>Removed bin from package-lock.json <a href="https://github.com/HousebirdGames/Birdhouse/commit/55856f5" class="commit">(Commit 55856f5)</a></li>
+  <li>Added the option to run serve.js and server.js with a custom port; Improved warnings and error handling for server.js; Updated README.md with instructions for serving the app locally with a specified port; The new default port for server.js is 4200; Pipeline now supports post release scripts for local builds <a href="https://github.com/HousebirdGames/Birdhouse/commit/b3fb679" class="commit">(Commit b3fb679)</a></li>
   <li>Added the option to deploy/build the app through the pipeline while having serve.js active <a href="https://github.com/HousebirdGames/Birdhouse/commit/e8a4fea" class="commit">(Commit e8a4fea)</a></li>
   <li>Added options for the release of silent and forced updates to the pipeline and service worker registration; Added experimental local development server and automated build process; Updated readme with the new flags and a section about the local development server <a href="https://github.com/HousebirdGames/Birdhouse/commit/ac0d7de" class="commit">(Commit ac0d7de)</a></li>
 </ul>

@@ -9,7 +9,7 @@
 <p>The Framework is a lightweight way to have a web app that mainly utilizes the resources of the users device. You can always integrate a backend, that allows for more functionality, but this framework is aimed at providing full offline capabilities to the enduser.</p>
 <h2>Documentation</h2>
 <p>Access comprehensive Birdhouse documentation at <a href="https://birdhouse-js.com">birdhouse-js.com</a>.</p>
-<p>For private, local access to the documentation, leverage the <a href="https://github.com/HousebirdGames/Birdhouse-Website">official Birdhouse GitHub repository</a>. Simply clone the repository and deploy it locally, for example, with XAMPP.</p>
+<p>For private, local access to the documentation, leverage the <a href="https://github.com/HousebirdGames/Birdhouse-Website">official Birdhouse Doumentation Website GitHub repository</a>. Simply clone the repository and deploy it locally, for example, with XAMPP or using the local development server (instructions below).</p>
 <p>Keep up with the latest updates by viewing <a href="https://github.com/HousebirdGames/Birdhouse/commits/main/">the commit history on GitHub</a> or <a href="https://birdhouse-js.com/changelog">the changelog on the documentation website</a>.</p>
 <h2>Logo and Name Use Guidelines Notice</h2>
 <p>When using the Birdhouse Framework in your projects, please adhere to our <a href="https://github.com/HousebirdGames/Birdhouse/blob/main/GUIDELINES.md">Logo and Name Use Guidelines</a> to ensure respectful and correct usage of our brand assets.</p>
@@ -51,12 +51,23 @@
 <p><strong>Important:</strong> Do not change the service-worker.js. It will get recopied to root on deployment and on root updates.</p>
 <h2>Local Development Server <strong>(experimental)</strong></h2>
 <p>The Birdhouse Framework includes a script, <code>server.js</code>, designed to simplify local development by serving your application directly from your development environment. This script is integral to simulating an Apache server environment, ensuring that your application behaves consistently between development and production. While <code>server.js</code> can function independently for basic tasks, it is primarily meant to be used alongside the <code>serve.js</code> script, which handles automatic file watching, building, and server restarting.</p>
-<p>To use <code>serve.js</code>, ensure you are in the <code>Birdhouse</code> directory, then execute this command:</p>
+<p>To use <code>serve.js</code>, ensure you are in the <code>Birdhouse</code> directory, then execute these commands:</p>
+<p>If you have not already, cd in to Birdhouse.</p>
+<pre><code class="language-bash">cd Birdhouse
+</code></pre>
+<p>Then make sure all node modules are installed.</p>
+<pre><code class="language-bash">npm install
+</code></pre>
+<p>Now you can serve the app locally.</p>
 <pre><code class="language-bash">node serve
 </code></pre>
+<p>or</p>
 <pre><code class="language-bash">npm run serve
 </code></pre>
-<p> This starts the local server and begins serving your project from the <code>dist</code> directory, automatically applying any Apache-like .htaccess rules you have configured for HTTP headers.</p>
+<p>You can also specify a port like this (default: 4200):</p>
+<pre><code class="language-bash">node serve 3000
+</code></pre>
+<p> This starts the local server and begins serving your project from the <code>dist</code> directory, automatically applying any Apache-like .htaccess rules you have configured for HTTP headers. The terminal will provide the URL with the default or specified port.</p>
 <p>This setup not only mimics the production environment closely but also allows you to test changes instantly without manual refreshes, although you should manually reload your browser to see updates.</p>
 <p><strong>Important:</strong> Remember, <code>serve.js</code> and <code>server.js</code> are for local development purposes only and should not be used as a production server.</p>
 <h2>Project Structure</h2>

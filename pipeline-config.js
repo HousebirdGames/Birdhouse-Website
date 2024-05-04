@@ -24,7 +24,6 @@ module.exports = {
     ignoredFileTypes: [
         ".zip",
         ".rar",
-        ".txt",
         ".psd",
         ".htaccess"
         ],
@@ -48,5 +47,7 @@ module.exports = {
         ],
     postReleaseScripts: [
 
-        ]
+        ],
+    appIconSourcePath: "img/logos-originals/Birdhouse-Logo.png",
+    appIconOutputDir: "img/app-icons"
     };

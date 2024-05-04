@@ -1,4 +1,7 @@
+import { updateTitleAndMeta } from "../../Birdhouse/src/main.js";
+
 export default async function Home() {
+    updateTitleAndMeta("Get Started", "Get started with Birdhouse by viewing the Readme, Changelog, and Guidelines. Explore example files and additional documentation.");
 
     return `
     <div class="pageRow centered">

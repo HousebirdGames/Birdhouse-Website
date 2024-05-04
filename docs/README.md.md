@@ -157,7 +157,9 @@ module.exports = {
 <li><code>-rollback</code> or <code>-r</code>: Rollback to the backup version of either staging (<code>-s</code>) or production (<code>-p</code>), when available on the server.</li>
 <li><code>-info</code> or <code>-i</code>: Display detailed information about the process.</li>
 <li><code>-skipCompU</code> or <code>-su</code>: Skips image compression and upload of the compressed folder, which is faster in some scenarios, where repeated uploads of the folder are not neccessary.</li>
-<li><code>-genfavicons</code> or <code>-gf</code>: Creates favicons of all specified (or the default) sizes from the original favicon and exits after that.</li>
-<li><code>-genicons</code> or <code>-gi</code>: Creates icons of all specified (or the default) sizes from the original icon and exits after that.</li>
+<li><code>-genFavicons</code> or <code>-gf</code>: Creates favicons of all specified (or the default) sizes from the original favicon and exits after that.</li>
+<li><code>-genIcons</code> or <code>-gi</code>: Creates icons of all specified (or the default) sizes from the original icon and exits after that.</li>
+<li><code>-genAppIcons</code> or <code>-ga</code>: Creates .icon (paths are configured in the pipeline-config.js) and exits after that.</li>
+<li><code>-noLog</code> or <code>-nl</code>: No statistics will be logged and added to the log file.</li>
 </ul>
 <p>The script automates various tasks, including version number updates, cache list generation, and file uploads to the server. Ensure you have the necessary permissions for file operations and SFTP server access.</p>

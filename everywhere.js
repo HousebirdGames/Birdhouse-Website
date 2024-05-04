@@ -14,7 +14,7 @@ window.hook('before-adding-base-content', async function (menuHTML) {
         return;
     }
 
-    headerElement.innerHTML = `<img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo" alt="Logo of the Birdhouse Framework"/>
+    headerElement.innerHTML = `<img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo ${main.standalone ? 'invisible' : ''}" alt="Logo of the Birdhouse Framework"/>
                                 <div class="buttonWrap hideOnSmall">
                                 <button class="openSearch"><span class="material-icons">search</span></button>
                                 ${menuHTML}
@@ -32,6 +32,7 @@ window.hook('before-adding-base-content', async function (menuHTML) {
 
 window.hook('on-handle-route-change', async function () {
     // This hook will get triggered as soon as a route change is started.
+    main.updateTitleAndMeta('Loading...', config.pageDescription);
 });
 
 window.hook('on-component-loaded', async function () {
@@ -364,6 +365,15 @@ window.hook('before-actions-setup', async function () {
         debounce: 100
     });
 
+    main.action({
+        type: 'click',
+        selector: '.closeApp',
+        handler: () => {
+            window.close();
+        },
+        debounce: 100
+    });
+
     function hashChange() {
         const oldActive = document.querySelector('.activeAnchor');
         if (oldActive) {
@@ -409,6 +419,7 @@ window.hook('get-popup-menu-html', async function (menuHTML) {
             <a href="changelog" class="menuButton closePopup"><span class="material-icons spaceRight">sync_alt</span><span class="linkText">Changelog</span></a>
             <br>
 			<button class="closePopup menu menuButton"><span class="material-icons md-light spaceRight">close</span><span class="linkText">Close</span></button>
+			${main.standalone ? `<button class="closeApp menu menuButton"><span class="material-icons spaceRight">close</span><span class="linkText">Exit App</span></button>` : ''}
 		</div>
 	</div>
     `;

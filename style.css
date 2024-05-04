@@ -814,11 +814,6 @@ ul.fileList {
     justify-content: flex-start;
 }
 
-#toggleDarkMode {
-    padding: 0.2rem;
-    border: 1px solid var(--fontColor);
-}
-
 #infoBar {
     width: 100%;
     color: var(--accent);

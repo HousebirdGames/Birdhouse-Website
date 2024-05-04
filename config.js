@@ -1,5 +1,5 @@
 export default {
-  "version": "1.2.1.52",
+  "version": "1.2.1.99",
   "pageTitle": "Birdhouse",
   "cookieIdentifier": "birdhouse",
   "foundationYear": 2024,
@@ -13,5 +13,7 @@ export default {
   "enableImageComparisonSliders": true,
   "enableInfoBar": true,
   "userLoginEnabled": false,
-  "redirect404ToRoot": false
+  "redirect404ToRoot": false,
+  "appIcon": "img/logos-originals/Birdhouse-Logo-Bevel",
+  "trustedImageDomains": ['https://birdhouse-js.com']
 };

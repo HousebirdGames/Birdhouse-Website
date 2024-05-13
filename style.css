@@ -107,7 +107,7 @@ footer {
 
 header {
     padding: 0.2rem;
-    padding-right: 1rem;
+    padding-right: var(--padding);
     align-items: center;
 }
 

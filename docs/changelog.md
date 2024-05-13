@@ -1,5 +1,6 @@
 <h2 id="month-2024-05">[button href=^#month-2024-05^ class=^copyLink^]2024-05<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>Updated package.json and comments <a href="https://github.com/HousebirdGames/Birdhouse/commit/595ecb5" class="commit">(Commit 595ecb5)</a></li>
   <li>Updated comments; Updated Birdhouse version <a href="https://github.com/HousebirdGames/Birdhouse/commit/4afbea8" class="commit">(Commit 4afbea8)</a></li>
   <li>Serve now correctly restarts the local server; The packaging process and pipeline now create a config.json; Added trustedImageDomains to the config that will determine the allowed image sources for electron <a href="https://github.com/HousebirdGames/Birdhouse/commit/0a8959a" class="commit">(Commit 0a8959a)</a></li>
   <li>Updated comments <a href="https://github.com/HousebirdGames/Birdhouse/commit/0615c71" class="commit">(Commit 0615c71)</a></li>

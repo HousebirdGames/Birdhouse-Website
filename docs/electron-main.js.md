@@ -1,2 +1,2 @@
 [h1]electron-main.js[/h1]
-[p]You can [a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/electron-main.js^]view this file on GitHub[/a].[/p]
+[p]You can [a href=^https://github.com/HousebirdGames/Birdhouse/blob/main/electron-main.js^]view this file on GitHub[/a].[/p][p class=^topComment justify^]This file, electron-main.js, serves as the main entry point for an Electron application. It is still in an experimental phase and should not be used in production. <br><br>Electron is a framework that allows for the development of desktop applications using web technologies like HTML, CSS, and JavaScript. The main process, which is initiated by this file, can create and manage BrowserWindow instances, handle system events, and control the application's lifecycle.[/p]

@@ -10,6 +10,8 @@ export const updateNotes = [
             "Improved accessibility for links",
             "Added pre caching for the search functionality",
             "Improved loading experience for slower connections",
+            "Overhauled the get started page",
+            "Improved visuals and accessibility",
         ]
     },
     {

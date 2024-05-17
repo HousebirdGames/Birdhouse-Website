@@ -16,15 +16,15 @@ window.hook('before-adding-base-content', async function (menuHTML) {
 
     headerElement.innerHTML = `<img src="img/logos-originals/Birdhouse-Logo-248x248.svg" class="logo ${main.standalone ? 'invisible' : ''}" alt="Logo of the Birdhouse Framework"/>
                                 <div class="buttonWrap hideOnSmall">
-                                <button class="openSearch"><span class="material-icons">search</span></button>
+                                <button class="openSearch square"><span class="material-icons">search</span></button>
                                 ${menuHTML}
                                 <a href="readme.md" class="menuButton"><span class="material-icons spaceRight">subject</span><span class="linkText">Docs</span></a>
                                 <a href="changelog" class="menuButton"><span class="material-icons spaceRight">sync_alt</span><span class="linkText">Log</span></a>
-                                <button class="toggleDarkMode"><span class="material-icons">light_mode</span></button>
+                                <button class="toggleDarkMode square"><span class="material-icons">light_mode</span></button>
                                 </div>
                                 <div class="buttonWrap hideOnLarge">
                                 <button class="toggleDarkMode"><span class="material-icons">light_mode</span></button>
-                                <button class="openSearch"><span class="material-icons">search</span></button>
+                                <button class="openSearch square"><span class="material-icons">search</span></button>
                                 <button id="menuButton"><span class="material-icons">menu</span></button>
                                 </div>
                             `;

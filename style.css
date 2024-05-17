@@ -32,6 +32,7 @@
     --transitionSlow: 1.4s ease-in-out;
 
     --fixedPadding: 1rem;
+    --onePixelRem: 0.0625rem;
 }
 
 @font-face {
@@ -81,6 +82,7 @@ body {
     font-size: var(--fontSize);
     color: var(--fontColor);
     min-height: 100lvh;
+    transition: var(--transitionFast);
 }
 
 header {
@@ -96,8 +98,8 @@ footer {
     flex-wrap: wrap;
     box-sizing: border-box;
     width: 100%;
-    gap: var(--padding);
-    padding: var(--padding);
+    gap: calc(var(--padding) / 2);
+    padding: calc(var(--padding) / 2);
     background: var(--accent);
     box-shadow: var(--boxShadow);
     justify-content: space-between;
@@ -105,10 +107,15 @@ footer {
     z-index: 10;
 }
 
-header {
-    padding: 0.2rem;
-    padding-right: var(--padding);
-    align-items: center;
+footer {
+    gap: 1rem;
+}
+
+footer a {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: -0.5rem;
+    margin-bottom: -0.5rem;
 }
 
 #content,
@@ -303,18 +310,13 @@ a {
     color: var(--highlight);
     text-decoration: none;
     transition: var(--transitionFast);
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-start;
+    position: relative;
 }
 
-p a {
-    padding: 1rem;
-    margin: -1rem;
-}
-
-.buttonWrap a {
-    min-height: 1.8rem;
+p a,
+a.commit {
+    padding: 0.2rem;
+    margin: -0.2rem;
 }
 
 span a::after,
@@ -323,7 +325,9 @@ p a::after,
 .pageColumn.entry li a::after {
     content: "\e89e";
     font-family: "Material Icons";
-    padding-left: 0.2rem;
+    padding-left: 0.1rem;
+    display: inline-block;
+    transform: translateY(0.1rem);
 }
 
 a:hover {
@@ -413,10 +417,6 @@ textarea::placeholder {
     justify-content: center;
 }
 
-.popup-content button {
-    align-self: center;
-}
-
 #searchPopup .popup-content {
     min-height: 100%;
     min-width: 100%;
@@ -435,7 +435,7 @@ label {
 
 #searchInput {
     background: var(--muchlighter);
-    border: 1px solid var(--darker);
+    border: var(--onePixelRem) solid var(--darker);
     color: var(--fontColor);
     font-size: var(--fontSizeMedium);
     border-radius: var(--borderRadius);
@@ -555,7 +555,7 @@ button,
     justify-content: flex-start;
     padding: 0.2rem 0.5rem;
     color: var(--fontColor);
-    border: 1px solid var(--fontColor);
+    border: var(--onePixelRem) solid var(--fontColor);
     cursor: pointer;
     transition: var(--transitionFast);
     background-color: var(--accent);
@@ -642,7 +642,8 @@ button:active,
     padding: var(--fixedPadding);
     background: var(--accent);
     min-height: 100%;
-    border: 1px solid var(--accent);
+    border: var(--onePixelRem) solid var(--accent);
+    transition: var(--transitionFast);
 }
 
 .contentRow .buttonRow {
@@ -650,6 +651,7 @@ button:active,
     justify-content: center;
     border: var(--fixedPadding) solid var(--accent);
     border-left: none;
+    transition: var(--transitionFast);
 }
 
 @media screen and (max-width: 600px) {
@@ -666,10 +668,6 @@ button:active,
 
     .buttonRow {
         width: 100%;
-    }
-
-    header {
-        padding-right: 0.2rem;
     }
 
     header .buttonRow {
@@ -751,7 +749,7 @@ table {
 
 td,
 th {
-    border: 1px solid var(--darker);
+    border: var(--onePixelRem) solid var(--darker);
     padding: 0.2rem 0.4rem;
     margin: 0;
 }
@@ -795,7 +793,7 @@ th.returns {
 }
 
 .fileList ul {
-    border-left: 1px solid var(--darker);
+    border-left: var(--onePixelRem) solid var(--darker);
 }
 
 .fileList ul,
@@ -840,6 +838,34 @@ ul.fileList {
     gap: var(--padding);
     justify-content: center;
     align-items: center;
+}
+
+.square {
+    aspect-ratio: 1/1;
+}
+
+header .buttonWrap {
+    gap: calc(var(--padding) / 2);
+    height: 100%;
+    min-height: 100%;
+    align-items: stretch;
+}
+
+.popup-content button {
+    align-self: center;
+}
+
+.inputRow {
+    width: 100%;
+    height: 100%;
+    min-height: fit-content;
+    align-items: stretch;
+}
+
+.inputRow button.centerText {
+    width: 100%;
+    justify-content: center;
+    align-self: stretch;
 }
 
 .buttonWrap.start {

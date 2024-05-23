@@ -1,5 +1,8 @@
 <h2 id="month-2024-05">[button href=^#month-2024-05^ class=^copyLink^]2024-05<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>Disabling Scroll Recall: Configuring scrollPositionRecallLimit to zero or a negative value will now deactivate the scroll position recall feature; Updated docs comment for the scroll function in main.js <a href="https://github.com/HousebirdGames/Birdhouse/commit/015eb32" class="commit">(Commit 015eb32)</a></li>
+  <li>Added scrollPositionRecallLimit property to the config <a href="https://github.com/HousebirdGames/Birdhouse/commit/8599061" class="commit">(Commit 8599061)</a></li>
+  <li>Added scroll position restoration to the scroll function <a href="https://github.com/HousebirdGames/Birdhouse/commit/7ba85c0" class="commit">(Commit 7ba85c0)</a></li>
   <li>Link clicks are now correctly prevented when useMouseDown is enabled <a href="https://github.com/HousebirdGames/Birdhouse/commit/bb567e4" class="commit">(Commit bb567e4)</a></li>
   <li>Added defaultClickEvent as new exported variable to main.js; Added useMouseDown property to the config that allows to set the default click event to "mousedown" which is used for certain acitons/listeners like link clicks <a href="https://github.com/HousebirdGames/Birdhouse/commit/3e3abac" class="commit">(Commit 3e3abac)</a></li>
   <li>Textarea resizing is now correctly setup when routes are changed <a href="https://github.com/HousebirdGames/Birdhouse/commit/0b1e928" class="commit">(Commit 0b1e928)</a></li>

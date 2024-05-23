@@ -49,7 +49,7 @@ window.hook('on-content-loaded', async function () {
     });
 
     main.action({
-        type: 'click',
+        type: main.defaultClickEvent,
         handler: (e) => {
             scrollTo(0, 0);
             e.target.blur();
@@ -101,7 +101,7 @@ window.hook('on-content-loaded', async function () {
     }
 
     main.action({
-        type: 'click',
+        type: main.defaultClickEvent,
         handler: (e) => {
             main.popupManager.openPopup('searchPopup');
             document.getElementById('searchInput').focus();
@@ -313,13 +313,13 @@ async function startSearch() {
 
 window.hook('before-actions-setup', async function () {
     main.action({
-        type: 'click',
+        type: main.defaultClickEvent,
         handler: toggleDarkMode,
         selector: '.toggleDarkMode'
     });
 
     main.action({
-        type: 'click',
+        type: main.defaultClickEvent,
         handler: (e) => {
             CopyToClipboard(e.target.innerHTML, false);
             e.target.classList.remove('copied');
@@ -332,7 +332,7 @@ window.hook('before-actions-setup', async function () {
     });
 
     main.action({
-        type: 'click',
+        type: main.defaultClickEvent,
         handler: (e) => {
             const dataValue = e.target.dataset.copy;
             CopyToClipboard(dataValue, false);
@@ -346,7 +346,7 @@ window.hook('before-actions-setup', async function () {
     });
 
     main.action({
-        type: 'click',
+        type: main.defaultClickEvent,
         handler: (e) => {
             setTimeout(() => {
                 CopyToClipboard(window.location.href, true)
@@ -366,7 +366,7 @@ window.hook('before-actions-setup', async function () {
     });
 
     main.action({
-        type: 'click',
+        type: main.defaultClickEvent,
         selector: '.closeApp',
         handler: () => {
             window.close();

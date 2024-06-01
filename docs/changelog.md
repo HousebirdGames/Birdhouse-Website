@@ -1,5 +1,8 @@
 <h2 id="month-2024-05">[button href=^#month-2024-05^ class=^copyLink^]2024-05<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>Added examples to the documentation of the action system as well as an additional warning log <a href="https://github.com/HousebirdGames/Birdhouse/commit/12998de" class="commit">(Commit 12998de)</a></li>
+  <li>Enabled alternative port detection in serve.js; Added additional logging to serve.js <a href="https://github.com/HousebirdGames/Birdhouse/commit/449a405" class="commit">(Commit 449a405)</a></li>
+  <li>Updated pipeline logging <a href="https://github.com/HousebirdGames/Birdhouse/commit/fb498c0" class="commit">(Commit fb498c0)</a></li>
   <li>Disabling Scroll Recall: Configuring scrollPositionRecallLimit to zero or a negative value will now deactivate the scroll position recall feature; Updated docs comment for the scroll function in main.js <a href="https://github.com/HousebirdGames/Birdhouse/commit/015eb32" class="commit">(Commit 015eb32)</a></li>
   <li>Added scrollPositionRecallLimit property to the config <a href="https://github.com/HousebirdGames/Birdhouse/commit/8599061" class="commit">(Commit 8599061)</a></li>
   <li>Added scroll position restoration to the scroll function <a href="https://github.com/HousebirdGames/Birdhouse/commit/7ba85c0" class="commit">(Commit 7ba85c0)</a></li>

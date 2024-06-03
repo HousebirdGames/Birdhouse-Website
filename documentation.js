@@ -405,6 +405,49 @@ async function writeHooksOverview(content) {
     console.log('Hooks overview generated successfully.');
 }
 
+
+async function createCombinedDocFile() {
+    console.log('Creating combined documentation file...');
+    const docFiles = (await fs.readdir('./docs')).filter(file => file.endsWith('.md'));
+
+    let allDocsContent = '';
+
+    for (const file of docFiles) {
+        const content = await fs.readFile(path.join('./docs', file), 'utf8');
+        allDocsContent += content + '\n';
+    }
+
+    await fs.writeFile('./allDocs.txt', allDocsContent);
+
+    console.log('Combined documentation file created successfully.');
+}
+
+async function getFiles(dir) {
+    const dirents = await fs.readdir(dir, { withFileTypes: true });
+    const files = await Promise.all(dirents.map((dirent) => {
+        const res = path.resolve(dir, dirent.name);
+        return dirent.isDirectory() ? getFiles(res) : res;
+    }));
+    return Array.prototype.concat(...files);
+}
+
+async function createCombinedJSFile() {
+    console.log('Creating combined JS file...');
+    const allFiles = await getFiles('./Birdhouse');
+    const docFiles = allFiles.filter(file => file.endsWith('.js'));
+
+    let allDocsContent = '';
+
+    for (const file of docFiles) {
+        const content = await fs.readFile(file, 'utf8');
+        allDocsContent += file.name + ':\n' + content + '\n\n';
+    }
+
+    await fs.writeFile('./allJS.txt', allDocsContent);
+
+    console.log('Combined JS file created successfully.');
+}
+
 async function main() {
     const birdhousePath = './Birdhouse';
     const ig = await readGitignore(birdhousePath);
@@ -422,6 +465,11 @@ async function main() {
     await fs.writeFile('./src/birdhouse-structure.js', `export const birdhouseStructure = ${JSON.stringify(directoryStructure, null, 2)};`, 'utf-8');
 
     console.log('Custom markdown documentation and dynamic routes generated successfully.');
+
+    await createCombinedDocFile().catch(console.error);
+    await createCombinedJSFile().catch(console.error);
+
+    console.log('Finished generating documentation.');
 }
 
 main().catch(console.error);

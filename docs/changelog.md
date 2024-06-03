@@ -1,3 +1,7 @@
+<h2 id="month-2024-06">[button href=^#month-2024-06^ class=^copyLink^]2024-06<span class="material-icons spaceLeft">link</span>[/button]</h2>
+<ul class="changelogList">
+  <li>Updated serve.js watcher to exclude 'node_modules'; Enhanced triggering of action system warnings <a href="https://github.com/HousebirdGames/Birdhouse/commit/7583948" class="commit">(Commit 7583948)</a></li>
+</ul>
 <h2 id="month-2024-05">[button href=^#month-2024-05^ class=^copyLink^]2024-05<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
   <li>Added examples to the documentation of the action system as well as an additional warning log <a href="https://github.com/HousebirdGames/Birdhouse/commit/12998de" class="commit">(Commit 12998de)</a></li>

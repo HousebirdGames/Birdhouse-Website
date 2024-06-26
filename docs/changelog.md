@@ -1,5 +1,7 @@
 <h2 id="month-2024-06">[button href=^#month-2024-06^ class=^copyLink^]2024-06<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>Added the new createRoute function that simplifies route creation <a href="https://github.com/HousebirdGames/Birdhouse/commit/db17d75" class="commit">(Commit db17d75)</a></li>
+  <li>Actions that are added without a specified type (i.e. 'click') will now default to the defaultClickEvent <a href="https://github.com/HousebirdGames/Birdhouse/commit/18e797d" class="commit">(Commit 18e797d)</a></li>
   <li>Updated serve.js watcher to exclude 'node_modules'; Enhanced triggering of action system warnings <a href="https://github.com/HousebirdGames/Birdhouse/commit/7583948" class="commit">(Commit 7583948)</a></li>
 </ul>
 <h2 id="month-2024-05">[button href=^#month-2024-05^ class=^copyLink^]2024-05<span class="material-icons spaceLeft">link</span>[/button]</h2>

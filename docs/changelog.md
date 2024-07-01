@@ -1,3 +1,7 @@
+<h2 id="month-2024-07">[button href=^#month-2024-07^ class=^copyLink^]2024-07<span class="material-icons spaceLeft">link</span>[/button]</h2>
+<ul class="changelogList">
+  <li>Added support for multiple menu buttons; Added support for multiple install buttons; Default menu HTML anchor elements now have their 'name' set as the 'title' attribute; Added title attribute to example close menu button <a href="https://github.com/HousebirdGames/Birdhouse/commit/4166247" class="commit">(Commit 4166247)</a></li>
+</ul>
 <h2 id="month-2024-06">[button href=^#month-2024-06^ class=^copyLink^]2024-06<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
   <li>Middle mouse button is now excluded from triggering route navigation <a href="https://github.com/HousebirdGames/Birdhouse/commit/a9acb59" class="commit">(Commit a9acb59)</a></li>

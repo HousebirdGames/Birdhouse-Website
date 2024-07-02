@@ -12,6 +12,7 @@ export const updateNotes = [
             "Improved loading experience for slower connections",
             "Overhauled the get started page",
             "Improved visuals and accessibility",
+            "Search input field is now directly focused when opening the search overlay",
         ]
     },
     {

@@ -99,7 +99,9 @@ window.hook('on-content-loaded', async function () {
         type: main.defaultClickEvent,
         handler: (e) => {
             main.popupManager.openPopup('searchPopup');
-            document.getElementById('searchInput').focus();
+            requestAnimationFrame(() => {
+                document.getElementById('searchInput').focus();
+            });
         },
         selector: '.openSearch'
     });
@@ -433,7 +435,7 @@ async function onPageLoaded() {
             <label><input type="text" id="searchInput" class="searchInput" placeholder="Search..." /></label>
             <div id="searchResults">
 		    </div>
-            <button class="closePopup"><i class="material-icons">close</i></button>
+            <button class="closePopup spaceRight"><i class="material-icons">close</i>Close</button>
             <button class="closePopup closePopupIcon"><i class="material-icons">close</i></button>
 		</div>
 	    </div>

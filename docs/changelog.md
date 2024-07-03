@@ -1,5 +1,6 @@
 <h2 id="month-2024-07">[button href=^#month-2024-07^ class=^copyLink^]2024-07<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>Updated infinite scroll offline message; Update LICENSE.txt to include "(c)" <a href="https://github.com/HousebirdGames/Birdhouse/commit/2652632" class="commit">(Commit 2652632)</a></li>
   <li>Improved action unmounting <a href="https://github.com/HousebirdGames/Birdhouse/commit/c16a4f7" class="commit">(Commit c16a4f7)</a></li>
   <li>Added support for multiple menu buttons; Added support for multiple install buttons; Default menu HTML anchor elements now have their 'name' set as the 'title' attribute; Added title attribute to example close menu button <a href="https://github.com/HousebirdGames/Birdhouse/commit/4166247" class="commit">(Commit 4166247)</a></li>
 </ul>

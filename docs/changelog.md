@@ -1,3 +1,7 @@
+<h2 id="month-2024-08">[button href=^#month-2024-08^ class=^copyLink^]2024-08<span class="material-icons spaceLeft">link</span>[/button]</h2>
+<ul class="changelogList">
+  <li>Infinite scroll enhancement: Configurable scroll container (default: window) and improved debounce behavior <a href="https://github.com/HousebirdGames/Birdhouse/commit/7dabf73" class="commit">(Commit 7dabf73)</a></li>
+</ul>
 <h2 id="month-2024-07">[button href=^#month-2024-07^ class=^copyLink^]2024-07<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
   <li>Updated infinite scroll offline message; Update LICENSE.txt to include "(c)" <a href="https://github.com/HousebirdGames/Birdhouse/commit/2652632" class="commit">(Commit 2652632)</a></li>

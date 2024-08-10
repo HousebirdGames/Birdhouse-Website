@@ -15,24 +15,37 @@ function pathToURL(path) {
 }
 
 function generateHTMLForStructure(structure, depth = 0) {
-    let html = `<ul class="${depth === 0 ? 'fileList' : ''}">\n`;
-    const relativePath = getRelativePath(window.location.pathname).toLocaleLowerCase();
+    const relativePath = getRelativePath(window.location.pathname).toLowerCase();
+    let html = '';
 
-    for (const [key, value] of Object.entries(structure)) {
-        const activeClass = value.path && getRelativePath(pathToURL(value.path)).toLocaleLowerCase() === relativePath ? 'active' : '';
-        const iconType = value.path || key.split('.').length > 1 ? 'description' : 'folder';
-        const webPath = value.path ? pathToURL(value.path) : '#';
-        const linkStart = value.path ? (activeClass == 'active' ? `<div class="noBreak"><span class="material-icons">${iconType}</span>${key}</div>` : `<a href="${webPath}" class="noBreak"><span class="material-icons">${iconType}</span>${key}</a>`) : `<span class="material-icons">${iconType}</span>${key}`;
+    const entries = Object.entries(structure);
+    if (entries.length > 0) {
+        html += `<ul class="${depth === 0 ? 'fileList' : ''}">\n`;
 
-        html += `<li class="${activeClass}">${linkStart}`;
+        for (const [key, value] of entries) {
+            const activeClass = value.path && getRelativePath(pathToURL(value.path)).toLowerCase() === relativePath ? 'active' : '';
+            const iconType = value.path || key.split('.').length > 1 ? 'description' : 'folder';
+            const webPath = value.path ? pathToURL(value.path) : '#';
+            const linkStart = value.path
+                ? (activeClass === 'active'
+                    ? `<div class="noBreak"><span class="material-icons">${iconType}</span>${key}</div>`
+                    : `<a href="${webPath}" class="noBreak"><span class="material-icons">${iconType}</span>${key}</a>`)
+                : `<span class="material-icons">${iconType}</span>${key}`;
 
-        if (!value.path) {
-            html += generateHTMLForStructure(value, depth + 1);
+            html += `<li class="${iconType} ${activeClass}">${linkStart}`;
+
+            if (!value.path) {
+                const childrenHtml = generateHTMLForStructure(value, depth + 1);
+                if (childrenHtml) {
+                    html += childrenHtml;
+                }
+            }
+
+            html += `</li>\n`;
         }
 
-        html += `</li>\n`;
+        html += '</ul>\n';
     }
 
-    html += '</ul>\n';
     return html;
 }

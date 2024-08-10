@@ -1,5 +1,5 @@
 export default {
-  "version": "1.2.1.185",
+  "version": "1.2.1.218",
   "pageTitle": "Birdhouse",
   "cookieIdentifier": "birdhouse",
   "foundationYear": 2024,
@@ -19,5 +19,6 @@ export default {
     "https://birdhouse-js.com"
   ],
   "useMouseDown": true,
+  "backNavigationClosesPopups": true,
   "scrollPositionRecallLimit": 50
 };

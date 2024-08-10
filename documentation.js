@@ -383,7 +383,7 @@ async function generateChangelog(directoryPath, structure = directoryStructure) 
 
 async function writeHooksOverview(content) {
     // Start building the HTML
-    let html = '<h1>Hooks</h1><p>Here you find all hooks that are available. You can also view the hooks implementation in <a href="src/modules/hooks.js">hooks.js</a>.</p>' + content;
+    let html = '<h1>Hooks</h1><p>Here you find all hooks that are available. You can also view the hooks implementation to learn how to add custom hooks: <a href="src/modules/hooks.js">hooks.js</a></p>' + content;
 
     // Write the HTML to a file
     await fs.writeFile('./docs/hooks.md', html, (err) => {

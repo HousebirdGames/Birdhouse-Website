@@ -291,6 +291,13 @@ async function startSearch() {
         return;
     }
 
+    results.sort((a, b) => {
+        if (b.hits !== a.hits) {
+            return b.hits - a.hits;
+        }
+        return a.filename.localeCompare(b.filename);
+    });
+
     results.forEach(route => {
         const link = route.originalPath.replace('Birdhouse/', '').toLocaleLowerCase() + '?search=' + searchTerm;
         const searchResult = `

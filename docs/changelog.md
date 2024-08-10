@@ -1,5 +1,7 @@
 <h2 id="month-2024-08">[button href=^#month-2024-08^ class=^copyLink^]2024-08<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>Improved hooks to accept multiple callbacks per hook; Added functions to clear and remove hooks; Implemented "opened-popup" hook in popupManager, triggered when a popup was opened; Updated example in everywhere.js to include the new "opened-popup" hook; Fixed bug where links did not work correctly in popups <a href="https://github.com/HousebirdGames/Birdhouse/commit/0bc02b1" class="commit">(Commit 0bc02b1)</a></li>
+  <li>Implemented optional back navigation for popup closure; Added 'backNavigationClosesPopups' config option (default: true) <a href="https://github.com/HousebirdGames/Birdhouse/commit/7f80ab8" class="commit">(Commit 7f80ab8)</a></li>
   <li>Infinite scroll enhancement: Configurable scroll container (default: window) and improved debounce behavior <a href="https://github.com/HousebirdGames/Birdhouse/commit/7dabf73" class="commit">(Commit 7dabf73)</a></li>
 </ul>
 <h2 id="month-2024-07">[button href=^#month-2024-07^ class=^copyLink^]2024-07<span class="material-icons spaceLeft">link</span>[/button]</h2>

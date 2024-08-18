@@ -143,7 +143,7 @@ async function extractTopComment(filePath) {
 }
 
 function extractHookCommentsAndNames(jsContent) {
-    const hookRegex = /\/\*\*([\s\S]*?)\*\/\s*window\.hook\((?:'|&#039;)([^']+?)(?:'|&#039;),/g;
+    const hookRegex = /\/\*\*([\s\S]*?)\*\/\s*window\.hook\((?:'|&#039;)([^']+?)(?:'|&#039;),\s*(async\s*)?function/g;
     let match;
     const hooks = [];
 
@@ -170,10 +170,13 @@ function extractHookCommentsAndNames(jsContent) {
         });
 
         const hookName = match[2];
+        const isAsync = match[3] !== undefined;
+
         hooks.push({
             hookName,
             description: comment.trim(),
-            annotations
+            annotations,
+            isAsync
         });
     }
 
@@ -283,7 +286,7 @@ async function generateDocumentation(directoryPath, ig, basePath = '', structure
                 if (cleanedContent.includes('window.hook')) {
                     const hooks = extractHookCommentsAndNames(cleanedContent);
                     for (const hook of hooks) {
-                        hooksContent += `[div class=^hook^ id=^hook-${hook.hookName}^][h3]Hook: <strong class="copyData" data-copy="window.hook('${hook.hookName}', async function (${hook.annotations['params'] ? hook.annotations['params'] : ''}) {/* ${hook.description} */});">${hook.hookName}</strong> [button href=^#hook-${hook.hookName}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p class=^justify^]${hook.description}[/p]${hook.annotations['params'] ? `[p class=^annotation^]These are the parameters the hooks function will receive: <strong>${hook.annotations['params']}</strong>[/p]` : ''}[p class=^annotation^]When using this hook, its function should return: <strong>${hook.annotations['shouldReturn']}</strong>[/p][/div]`;
+                        hooksContent += `[div class=^hook^ id=^hook-${hook.hookName}^][h3]Hook: <strong class="copyData" data-copy="window.hook('${hook.hookName}',${hook.isAsync ? ' async' : ''} function (${hook.annotations['params'] ? hook.annotations['params'] : ''}) {/* ${hook.description} */});">${hook.hookName}</strong> [button href=^#hook-${hook.hookName}^ class=^copyLink^]<span class="material-icons">link</span>[/button][/h3][p class=^justify^]${hook.description}[/p]${hook.annotations['params'] ? `[p class=^annotation^]These are the parameters the hooks function will receive: <strong>${hook.annotations['params']}</strong>[/p]` : ''}[p class=^annotation^]When using this hook, its function should return: <strong>${hook.annotations['shouldReturn']}</strong>[/p][/div]`;
                     }
                 }
 

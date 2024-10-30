@@ -1,5 +1,6 @@
 <h2 id="month-2024-10">[button href=^#month-2024-10^ class=^copyLink^]2024-10<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>Service Worker claims clients before fetching now; Improved Service Worker exluded path handling <a href="https://github.com/HousebirdGames/Birdhouse/commit/5222d58" class="commit">(Commit 5222d58)</a></li>
   <li>Update notification now uses flex when opening instead of block <a href="https://github.com/HousebirdGames/Birdhouse/commit/d8afc51" class="commit">(Commit d8afc51)</a></li>
   <li>Scope is now controlling the service worker path <a href="https://github.com/HousebirdGames/Birdhouse/commit/11eeb14" class="commit">(Commit 11eeb14)</a></li>
   <li>Added option to set service worker scope through new 'scope' config property <a href="https://github.com/HousebirdGames/Birdhouse/commit/aa34cda" class="commit">(Commit aa34cda)</a></li>

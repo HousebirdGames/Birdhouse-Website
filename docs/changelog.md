@@ -1,5 +1,6 @@
 <h2 id="month-2024-10">[button href=^#month-2024-10^ class=^copyLink^]2024-10<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>Update notification now uses flex when opening instead of block <a href="https://github.com/HousebirdGames/Birdhouse/commit/d8afc51" class="commit">(Commit d8afc51)</a></li>
   <li>Scope is now controlling the service worker path <a href="https://github.com/HousebirdGames/Birdhouse/commit/11eeb14" class="commit">(Commit 11eeb14)</a></li>
   <li>Added option to set service worker scope through new 'scope' config property <a href="https://github.com/HousebirdGames/Birdhouse/commit/aa34cda" class="commit">(Commit aa34cda)</a></li>
   <li>Corrected import in popup manager <a href="https://github.com/HousebirdGames/Birdhouse/commit/ed9dabc" class="commit">(Commit ed9dabc)</a></li>

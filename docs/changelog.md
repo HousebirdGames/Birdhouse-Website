@@ -1,3 +1,10 @@
+<h2 id="month-2024-10">[button href=^#month-2024-10^ class=^copyLink^]2024-10<span class="material-icons spaceLeft">link</span>[/button]</h2>
+<ul class="changelogList">
+  <li>Scope is now controlling the service worker path <a href="https://github.com/HousebirdGames/Birdhouse/commit/11eeb14" class="commit">(Commit 11eeb14)</a></li>
+  <li>Added option to set service worker scope through new 'scope' config property <a href="https://github.com/HousebirdGames/Birdhouse/commit/aa34cda" class="commit">(Commit aa34cda)</a></li>
+  <li>Corrected import in popup manager <a href="https://github.com/HousebirdGames/Birdhouse/commit/ed9dabc" class="commit">(Commit ed9dabc)</a></li>
+  <li>Added 'useFlexPopups' config option; Updated service worker registration for improved compatibility with multiple PWAs on a single domain <a href="https://github.com/HousebirdGames/Birdhouse/commit/196e8d1" class="commit">(Commit 196e8d1)</a></li>
+</ul>
 <h2 id="month-2024-08">[button href=^#month-2024-08^ class=^copyLink^]2024-08<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
   <li>Refactored asyncLoad to use task queue; Improved async component loading management <a href="https://github.com/HousebirdGames/Birdhouse/commit/39489d8" class="commit">(Commit 39489d8)</a></li>

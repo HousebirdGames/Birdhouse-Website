@@ -1,10 +1,11 @@
 export default {
-  "version": "1.2.1.239",
+  "version": "1.2.1.241",
   "pageTitle": "Birdhouse",
   "cookieIdentifier": "birdhouse",
   "foundationYear": 2024,
   "pageDescription": "The documentation for the Birdhouse Framework.",
   "localhostPath": "/birdhouse-website",
+  "scope": "/",
   "excludedPaths": [],
   "openCookiePopupAtPageLoad": false,
   "showNewUpdateNotes": true,
@@ -19,6 +20,7 @@ export default {
     "https://birdhouse-js.com"
   ],
   "useMouseDown": true,
+  "useFlexPopups": false,
   "backNavigationClosesPopups": true,
   "scrollPositionRecallLimit": 50
 };

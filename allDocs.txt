@@ -1,3 +1,7 @@
+<h2 id="month-2025-04">[button href=^#month-2025-04^ class=^copyLink^]2025-04<span class="material-icons spaceLeft">link</span>[/button]</h2>
+<ul class="changelogList">
+  <li>Link click handler now respects app scope <a href="https://github.com/HousebirdGames/Birdhouse/commit/4ff015e" class="commit">(Commit 4ff015e)</a></li>
+</ul>
 <h2 id="month-2025-03">[button href=^#month-2025-03^ class=^copyLink^]2025-03<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
   <li>Switched service worker to serve index.html from a relative path to enable support for multiple Birdhouse PWAs on one domain <a href="https://github.com/HousebirdGames/Birdhouse/commit/7b9741e" class="commit">(Commit 7b9741e)</a></li>

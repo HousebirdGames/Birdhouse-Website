@@ -1,3 +1,7 @@
+<h2 id="month-2025-10">[button href=^#month-2025-10^ class=^copyLink^]2025-10<span class="material-icons spaceLeft">link</span>[/button]</h2>
+<ul class="changelogList">
+  <li>Improved pipeline error handling <a href="https://github.com/HousebirdGames/Birdhouse/commit/cd1c8a2" class="commit">(Commit cd1c8a2)</a></li>
+</ul>
 <h2 id="month-2025-04">[button href=^#month-2025-04^ class=^copyLink^]2025-04<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
   <li>Link click handler now respects app scope <a href="https://github.com/HousebirdGames/Birdhouse/commit/4ff015e" class="commit">(Commit 4ff015e)</a></li>

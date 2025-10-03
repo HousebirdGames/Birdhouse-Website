@@ -1,5 +1,7 @@
 <h2 id="month-2025-10">[button href=^#month-2025-10^ class=^copyLink^]2025-10<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
+  <li>Fixed silent updates showing notification popup; Silent update flag (-s) now correctly skips update notification while still applying the update in the background <a href="https://github.com/HousebirdGames/Birdhouse/commit/b83b4b1" class="commit">(Commit b83b4b1)</a></li>
+  <li>Fixed service worker race condition causing update popup on forced updates; Wait for controllerchange event before reloading to ensure service worker is fully activated; Prevents popup from appearing during development with forced update flag <a href="https://github.com/HousebirdGames/Birdhouse/commit/440ae0a" class="commit">(Commit 440ae0a)</a></li>
   <li>Improved pipeline error handling <a href="https://github.com/HousebirdGames/Birdhouse/commit/cd1c8a2" class="commit">(Commit cd1c8a2)</a></li>
 </ul>
 <h2 id="month-2025-04">[button href=^#month-2025-04^ class=^copyLink^]2025-04<span class="material-icons spaceLeft">link</span>[/button]</h2>

@@ -326,7 +326,7 @@ p a::after,
     content: "\e89e";
     font-family: "Material Icons";
     padding-left: 0.1rem;
-    display: inline-block;
+    display: inline;
     transform: translateY(0.1rem);
 }
 
@@ -928,6 +928,7 @@ ul.changelogList,
 .commit {
     font-size: var(--fontSizeSmall);
     color: var(--muchDarker);
+    white-space: nowrap;
 }
 
 #installButton {

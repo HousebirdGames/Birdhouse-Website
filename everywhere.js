@@ -386,9 +386,11 @@ window.hook('before-actions-setup', async function () {
 
         // Add the class to the current active anchor target
         const hash = window.location.hash.substring(1); // Get the hash and remove the '#'
-        const target = document.getElementById(hash);
-        if (target) {
-            target.classList.add('activeAnchor');
+        if (hash) {
+            const target = document.getElementById(hash);
+            if (target) {
+                target.classList.add('activeAnchor');
+            }
         }
     }
 });

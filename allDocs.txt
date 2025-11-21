@@ -1,3 +1,7 @@
+<h2 id="month-2025-11">[button href=^#month-2025-11^ class=^copyLink^]2025-11<span class="material-icons spaceLeft">link</span>[/button]</h2>
+<ul class="changelogList">
+  <li>Updated patreon URL <a href="https://github.com/HousebirdGames/Birdhouse/commit/6aaa262" class="commit">(Commit 6aaa262)</a></li>
+</ul>
 <h2 id="month-2025-10">[button href=^#month-2025-10^ class=^copyLink^]2025-10<span class="material-icons spaceLeft">link</span>[/button]</h2>
 <ul class="changelogList">
   <li>Fixed silent updates showing notification popup; Silent update flag (-s) now correctly skips update notification while still applying the update in the background <a href="https://github.com/HousebirdGames/Birdhouse/commit/b83b4b1" class="commit">(Commit b83b4b1)</a></li>
